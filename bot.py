@@ -271,9 +271,33 @@ async def kd_stats(ctx):
         total_kills_gained = result['Kills Change'].sum()
         total_deaths_gained = result['Deads Change'].sum()
 
+        # Розрахунок зміни загальної потужності королівства
+        total_power_change = (result['Power_after'] - result['Power_before']).sum()
+
+        # Розрахунок поточної загальної потужності королівства
+        current_total_power = result['Power_after'].sum()
+
         embed = discord.Embed(title="📊 Kingdom Overview", color=discord.Color.green())
-        embed.add_field(name="⚔️ Total Kills Gained:", value=f"{total_kills_gained:.0f}", inline=False)
-        embed.add_field(name="🤕 Total Deaths Gained:", value=f"{total_deaths_gained:.0f}", inline=False)
+        embed.add_field(
+            name="⚔️ Total Kills Gained:",
+            value=f"{total_kills_gained:,.0f}",  # Додано роздільник тисяч
+            inline=False
+        )
+        embed.add_field(
+            name="🤕 Total Deaths Gained:",
+            value=f"{total_deaths_gained:,.0f}",  # Додано роздільник тисяч
+            inline=False
+        )
+        embed.add_field(
+            name="💪 Change in Total Power:",
+            value=f"{total_power_change:,.0f}",  # Додано роздільник тисяч
+            inline=False
+        )
+        embed.add_field(
+            name="⚡ Current Total Power:",
+            value=f"{current_total_power:,.0f}",  # Додано роздільник тисяч
+            inline=False
+        )
 
         await ctx.send(embed=embed)
 
