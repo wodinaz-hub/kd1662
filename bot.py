@@ -88,8 +88,8 @@ def get_player_stats(result, player_id):
     kill_points_change = player['Kill Points_after'] - player['Kill Points_before']
     deads_change = player['Deads_after'] - player['Deads_before']
 
-    kills_completion = max(0, min((kills_change / player['Required Kills']) * 100, 100)) if player['Required Kills'] != 0 and kills_change > 0 else 0
-    deads_completion = max(0, min((deads_change / player['Required Deaths']) * 100, 100)) if player['Required Deaths'] != 0 and deads_change > 0 else 0
+    kills_completion = (kills_change / player['Required Kills']) * 100 if player['Required Kills'] != 0 else 0
+    deads_completion = (deads_change / player['Required Deaths']) * 100 if player['Required Deaths'] != 0 else 0
     dkp = player['DKP']
     rank = int(player['Rank'])
     governor_name = player['Governor Name']
