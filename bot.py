@@ -151,9 +151,9 @@ def create_dual_semi_circular_progress(kill_progress_percent, death_progress_per
     ax.add_patch(deaths_progress)
 
     # --- Text ---
-    ax.text(0, 0.3, 'Progress', ha='center', va='center', fontsize=14, color='#AAAAAA')
     ax.text(-0.5, -0.2, f'Kills: {kill_progress_percent:.0f}%', ha='center', va='center', fontsize=12, color='#D4AF37')
     ax.text(0.5, -0.2, f'Deaths: {death_progress_percent:.0f}%', ha='center', va='center', fontsize=12, color='#E879F9')
+    ax.text(0, 0.3, 'Progress', ha='center', va='center', fontsize=14, color='#AAAAAA')
 
     plt.gca().set_aspect('equal', adjustable='box')
     plt.savefig(filename, transparent=True)
