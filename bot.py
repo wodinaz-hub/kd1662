@@ -342,17 +342,22 @@ async def stats(ctx, player_id):
                 f"Required: {round(player_stats['required_kills']):,}\n"
                 f"Total: {round(player_stats['kills_change']):,}\n"
                 f"T4: {round(player_stats['tier4_kills_change']):,}\n"
-                f"T5: {round(player_stats['tier5_kills_change']):,}"
+                f"T5: {round(player_stats['tier5_kills_change']):,}\n"
+                f"Progress: {player_stats['kills_completion']:.2f}%"
             ), inline=True)
             embed.add_field(name="🤕 Deaths:", value=(
                 f"Required: {round(player_stats['required_deaths']):,}\n"
-                f"Total: {round(player_stats['deads_change']):,}"
+                f"Total: {round(player_stats['deads_change']):,}\n"
+                f"Progress: {player_stats['deads_completion']:.2f}%"
             ), inline=True)
 
             embed.add_field(name="🏅 DKP:", value=f"{round(player_stats['dkp']):,}", inline=False)
             embed.add_field(name="🏆 DKP Rank:", value=f"#{player_stats['rank']}", inline=False)
 
-            chart_path = create_dual_semi_circular_progress(player_stats['kills_completion'], player_stats['deads_completion'])
+            chart_path = create_dual_semi_circular_progress(
+                player_stats['kills_completion'],  # Передаємо фактичний відсоток
+                player_stats['deads_completion']   # Передаємо фактичний відсоток
+            )
             with open(chart_path, 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send(embed=embed, file=picture)
