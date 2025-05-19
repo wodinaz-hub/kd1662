@@ -285,16 +285,16 @@ async def top(ctx, limit: int = 5):
     try:
         result = pd.read_excel('results.xlsx')
         result_sorted = result.sort_values(by='DKP', ascending=False).head(limit)
-        embed = discord.Embed(title=f"🏆 Top {limit} Players", color=discord.Color.gold())
+        embed = discord.Embed(title=f"🏆 Top {limit} Players (KVK Gains)", color=discord.Color.gold())
         for index, row in result_sorted.iterrows():
             embed.add_field(
                 name=f"{index + 1}. {row['Governor Name']}",
                 value=(
                     f"🏅 DKP: {round(row['DKP']):,}\n"
-                    f"🤕 Deaths: {round(row['Deads_after']):,}\n"
-                    f"⚔️ Kill Points: {round(row['Kill Points_after']):,}\n"
-                    f"T4 Kills: {round(row['Tier 4 Kills_after']):,}\n"
-                    f"T5 Kills: {round(row['Tier 5 Kills_after']):,}"
+                    f"🤕 Deaths Gained: {round(row['Deads Change']):,}\n"
+                    f"⚔️ Kill Points Gained: {round(row['Kills Change']):,}\n"
+                    f"T4 Kills Gained: {round(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before']):,}\n"
+                    f"T5 Kills Gained: {round(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before']):,}"
                 ),
                 inline=False
             )
