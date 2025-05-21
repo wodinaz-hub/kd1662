@@ -6,9 +6,60 @@ import matplotlib.patches as patches
 import numpy as np
 import os
 from dotenv import load_dotenv
+import discord.ui
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+
+class PaginationView(discord.ui.View):
+    def __init__(self, embeds: list[discord.Embed], timeout=180):
+        super().__init__(timeout=timeout)
+        self.embeds = embeds
+        self.current_page = 0
+
+        # Додаємо кнопки при ініціалізації
+        self.add_item(discord.ui.Button(label="⬅️ Previous", custom_id="prev_page", style=discord.ButtonStyle.blurple))
+        self.add_item(discord.ui.Button(label="➡️ Next", custom_id="next_page", style=discord.ButtonStyle.blurple))
+        self.update_buttons()
+
+    def update_buttons(self):
+        # Вмикаємо/вимикаємо кнопки залежно від поточної сторінки
+        self.children[0].disabled = (self.current_page == 0) # Кнопка "Previous"
+        self.children[1].disabled = (self.current_page == len(self.embeds) - 1) # Кнопка "Next"
+
+    async def send_response(self, interaction: discord.Interaction, ephemeral: bool = False):
+        # Оновлюємо кнопки перед відправкою/редагуванням повідомлення
+        self.update_buttons()
+        await interaction.response.send_message(
+            embed=self.embeds[self.current_page],
+            view=self,
+            ephemeral=ephemeral # Якщо True, повідомлення буде видно тільки тому, хто викликав команду
+        )
+
+    @discord.ui.button(label="⬅️ Previous", style=discord.ButtonStyle.blurple, custom_id="prev_page")
+    async def previous_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.current_page > 0:
+            self.current_page -= 1
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
+        else:
+            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена
+
+    @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.blurple, custom_id="next_page")
+    async def next_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.current_page < len(self.embeds) - 1:
+            self.current_page += 1
+            self.update_buttons()
+            await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
+        else:
+            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена
+
+    async def on_timeout(self):
+        # Вимкнути всі кнопки після таймауту
+        for item in self.children:
+            item.disabled = True
+        if self.message: # Перевірка, що повідомлення існує
+            await self.message.edit(view=self)
 
 # === Data Loading and Preparation ===
 def load_and_prepare_data(before_file, after_file, requirements_file):
@@ -216,6 +267,9 @@ def create_progress_bar(percent, length=20):
     bar = '█' * filled_length + '-' * (length - filled_length)
     return f'[{bar}] {percent:.0f}%'
 
+
+# ... ваш існуючий код ...
+
 @bot.command(name="req")
 async def requirements(ctx):
     try:
@@ -225,13 +279,10 @@ async def requirements(ctx):
             kills_needed = max(0, row['Required Kills'] - (row['Kill Points_after'] - row['Kill Points_before']))
             deaths_needed = max(0, row['Required Deaths'] - (row['Deads_after'] - row['Deads_before']))
 
-            kills_progress_percent = 0
-            if row['Required Kills'] > 0:
-                kills_progress_percent = min(100, (row['Kill Points_after'] - row['Kill Points_before']) / row['Required Kills'] * 100)
-
-            deaths_progress_percent = 0
-            if row['Required Deaths'] > 0:
-                deaths_progress_percent = min(100, (row['Deads_after'] - row['Deads_before']) / row['Required Deaths'] * 100)
+            kills_progress_percent = (row['Kill Points_after'] - row['Kill Points_before']) / row[
+                'Required Kills'] * 100 if row['Required Kills'] != 0 else 0
+            deaths_progress_percent = (row['Deads_after'] - row['Deads_before']) / row['Required Deaths'] * 100 if row[
+                                                                                                                       'Required Deaths'] != 0 else 0
 
             if kills_needed > 0 or deaths_needed > 0:
                 not_completed.append({
@@ -247,23 +298,52 @@ async def requirements(ctx):
             embed = discord.Embed(title="🎉 All players have met the requirements!", color=discord.Color.green())
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="⚠️ Players who have not met the requirements:", color=discord.Color.orange())
+            all_embeds = []
+            current_embed = discord.Embed(title="⚠️ Players who have not met the requirements:",
+                                          color=discord.Color.orange())
+            fields_count = 0
+
             for player in not_completed:
-                embed.add_field(
+                field_value = (
+                    f"⚔️ Kills: {create_progress_bar(player['Kills Progress'])}\n"
+                    f"({player['Kills Needed']:.0f} remaining)\n"
+                    f"🤕 Deaths: {create_progress_bar(player['Deaths Progress'])}\n"
+                    f"({player['Deaths Needed']:.0f} remaining)"
+                )
+
+                # Перевіряємо, чи додавання нового поля не перевищить ліміт (25 полів на embed)
+                # Або, якщо ви хочете бути більш точним, можете оцінювати довжину символів
+                if fields_count >= 25:
+                    all_embeds.append(current_embed)
+                    current_embed = discord.Embed(title="⚠️ Players who have not met the requirements (continued):",
+                                                  color=discord.Color.orange())
+                    fields_count = 0
+
+                current_embed.add_field(
                     name=f"{player['Governor Name']} (ID: {player['Governor ID']})",
-                    value=(
-                        f"⚔️ Kills: {create_progress_bar(player['Kills Progress'])}\n"
-                        f"({player['Kills Needed']:.0f} remaining)\n"
-                        f"🤕 Deaths: {create_progress_bar(player['Deaths Progress'])}\n"
-                        f"({player['Deaths Needed']:.0f} remaining)"
-                    ),
+                    value=field_value,
                     inline=False
                 )
-            await ctx.send(embed=embed)
+                fields_count += 1
+
+            # Додаємо останній embed, якщо він не порожній
+            if fields_count > 0:
+                all_embeds.append(current_embed)
+
+            # Якщо є лише один embed, відправляємо його без кнопок
+            if len(all_embeds) == 1:
+                await ctx.send(embed=all_embeds[0])
+            else:
+                # Створюємо View з кнопками та відправляємо перший embed
+                view = PaginationView(all_embeds)
+                message = await ctx.send(embed=all_embeds[0], view=view)
+                view.message = message  # Зберігаємо посилання на повідомлення для таймауту
 
     except Exception as e:
         await ctx.send(f"An error occurred while processing the !req command: {str(e)}")
 
+
+# ... решта вашого коду ...
 @bot.command()
 async def kd_stats(ctx):
     try:
