@@ -16,8 +16,8 @@ class PaginationView(discord.ui.View):
         super().__init__(timeout=timeout)
         self.embeds = embeds
         self.current_page = 0
+        self.message = None # Буде встановлено після відправки повідомлення
 
-        # Додаємо кнопки при ініціалізації
         self.add_item(discord.ui.Button(label="⬅️ Previous", custom_id="prev_page", style=discord.ButtonStyle.blurple))
         self.add_item(discord.ui.Button(label="➡️ Next", custom_id="next_page", style=discord.ButtonStyle.blurple))
         self.update_buttons()
@@ -27,15 +27,6 @@ class PaginationView(discord.ui.View):
         self.children[0].disabled = (self.current_page == 0) # Кнопка "Previous"
         self.children[1].disabled = (self.current_page == len(self.embeds) - 1) # Кнопка "Next"
 
-    async def send_response(self, interaction: discord.Interaction, ephemeral: bool = False):
-        # Оновлюємо кнопки перед відправкою/редагуванням повідомлення
-        self.update_buttons()
-        await interaction.response.send_message(
-            embed=self.embeds[self.current_page],
-            view=self,
-            ephemeral=ephemeral # Якщо True, повідомлення буде видно тільки тому, хто викликав команду
-        )
-
     @discord.ui.button(label="⬅️ Previous", style=discord.ButtonStyle.blurple, custom_id="prev_page")
     async def previous_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         if self.current_page > 0:
@@ -43,7 +34,7 @@ class PaginationView(discord.ui.View):
             self.update_buttons()
             await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
         else:
-            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена
+            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена або натиснута, коли вимкнена
 
     @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.blurple, custom_id="next_page")
     async def next_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -52,14 +43,17 @@ class PaginationView(discord.ui.View):
             self.update_buttons()
             await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
         else:
-            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена
+            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена або натиснута, коли вимкнена
 
     async def on_timeout(self):
         # Вимкнути всі кнопки після таймауту
         for item in self.children:
             item.disabled = True
-        if self.message: # Перевірка, що повідомлення існує
-            await self.message.edit(view=self)
+        if self.message:
+            try:
+                await self.message.edit(view=self)
+            except discord.NotFound:
+                pass # Повідомлення могло бути видалене
 
 # === Data Loading and Preparation ===
 def load_and_prepare_data(before_file, after_file, requirements_file):
@@ -100,13 +94,31 @@ def load_and_prepare_data(before_file, after_file, requirements_file):
 
 # === Statistics Calculation ===
 def calculate_stats(before, after, requirements):
-    result = before.merge(after, on='Governor ID', suffixes=('_before', '_after'))
-    result = result.merge(requirements, on='Governor ID')
+    # Змінено на left merge, щоб зберегти всі записи з 'before' навіть якщо їх немає в 'after' або 'requirements'
+    result = before.merge(after, on='Governor ID', suffixes=('_before', '_after'), how='left')
+    result = result.merge(requirements, on='Governor ID', how='left')
+
+    # Визначте стовпці, які мають бути числовими і можуть містити NaN після злиття
+    numeric_columns_to_fill = [
+        'Kill Points_before', 'Kill Points_after',
+        'Deads_before', 'Deads_after',
+        'Tier 5 Kills_before', 'Tier 5 Kills_after',
+        'Tier 4 Kills_before', 'Tier 4 Kills_after',
+        'Power_before', 'Power_after',
+        'Required Kills', 'Required Deaths'
+    ]
+
+    # Заповніть NaN значеннями 0 для цих стовпців та переконайтеся, що вони числові
+    for col in numeric_columns_to_fill:
+        if col in result.columns:
+            result[col] = pd.to_numeric(result[col], errors='coerce').fillna(0) # Перетворюємо на число, 'coerce' замінить нечисла на NaN, а потім fillna(0) замінить NaN на 0
 
     result['Kills Change'] = result['Kill Points_after'] - result['Kill Points_before']
     result['Deads Change'] = result['Deads_after'] - result['Deads_before']
-    result['Kills Completion (%)'] = (result['Kill Points_after'] / result['Required Kills']) * 100
-    result['Deaths Completion (%)'] = (result['Deads_after'] / result['Required Deaths']) * 100
+
+    # Переконайтеся, що Required Kills/Deaths не є нулем перед діленням
+    result['Kills Completion (%)'] = result.apply(lambda row: (row['Kill Points_after'] / row['Required Kills']) * 100 if row['Required Kills'] != 0 else 0, axis=1)
+    result['Deaths Completion (%)'] = result.apply(lambda row: (row['Deads_after'] / row['Required Deaths']) * 100 if row['Required Deaths'] != 0 else 0, axis=1)
 
     result['DKP'] = (
         (result['Deads_after'] - result['Deads_before']) * 15 +
@@ -114,6 +126,8 @@ def calculate_stats(before, after, requirements):
         (result['Tier 4 Kills_after'] - result['Tier 4 Kills_before']) * 4
     )
 
+    # Заповніть DKP значеннями 0, якщо воно могло стати NaN
+    result['DKP'] = result['DKP'].fillna(0)
     result['Rank'] = result['DKP'].rank(ascending=False, method='min')
 
     result.to_excel('results.xlsx', index=False)
@@ -257,18 +271,6 @@ def create_progress_bar(percent, length=20):
     bar = '█' * filled_length + '-' * (length - filled_length)
     return f'[{bar}] {percent:.0f}%'
 
-def create_progress_bar(percent, length=20):
-    filled_length = int(length * percent // 100)
-    bar = '█' * filled_length + '-' * (length - filled_length)
-    return f'[{bar}] {percent:.0f}%'
-
-def create_progress_bar(percent, length=20):
-    filled_length = int(length * percent // 100)
-    bar = '█' * filled_length + '-' * (length - filled_length)
-    return f'[{bar}] {percent:.0f}%'
-
-
-# ... ваш існуючий код ...
 
 @bot.command(name="req")
 async def requirements(ctx):
@@ -276,15 +278,19 @@ async def requirements(ctx):
         result = pd.read_excel('results.xlsx')
         not_completed = []
         for index, row in result.iterrows():
-            kills_needed = max(0, row['Required Kills'] - (row['Kill Points_after'] - row['Kill Points_before']))
-            deaths_needed = max(0, row['Required Deaths'] - (row['Deads_after'] - row['Deads_before']))
-
+            # Важливо: here we calculate percentages directly.
+            # No min(100, ...) here, as we want actual percentages for display
             kills_progress_percent = (row['Kill Points_after'] - row['Kill Points_before']) / row[
                 'Required Kills'] * 100 if row['Required Kills'] != 0 else 0
             deaths_progress_percent = (row['Deads_after'] - row['Deads_before']) / row['Required Deaths'] * 100 if row[
                                                                                                                        'Required Deaths'] != 0 else 0
 
-            if kills_needed > 0 or deaths_needed > 0:
+            # Calculate kills/deaths needed
+            # Use max(0, ...) to ensure 'needed' is not negative if over-completed
+            kills_needed = max(0, row['Required Kills'] - (row['Kill Points_after'] - row['Kill Points_before']))
+            deaths_needed = max(0, row['Required Deaths'] - (row['Deads_after'] - row['Deads_before']))
+
+            if kills_needed > 0 or deaths_needed > 0:  # Only add players who haven't met ALL requirements
                 not_completed.append({
                     'Governor Name': row['Governor Name'],
                     'Governor ID': row['Governor ID'],
@@ -299,25 +305,28 @@ async def requirements(ctx):
             await ctx.send(embed=embed)
         else:
             all_embeds = []
-            current_embed = discord.Embed(title="⚠️ Players who have not met the requirements:",
-                                          color=discord.Color.orange())
+            current_embed = None
             fields_count = 0
+            part_number = 1
 
             for player in not_completed:
+                # Якщо поточний embed не існує або досягнуто ліміту полів (25 полів на embed)
+                # або якщо embed'у загрожує перевищення ліміту символів (можна додати більш складну перевірку)
+                if current_embed is None or fields_count >= 25:
+                    if current_embed is not None:  # Якщо це не перший embed, додаємо його до списку
+                        all_embeds.append(current_embed)
+                    current_embed = discord.Embed(
+                        title=f"⚠️ Players who have not met the requirements (Part {part_number}):",
+                        color=discord.Color.orange())
+                    fields_count = 0
+                    part_number += 1
+
                 field_value = (
                     f"⚔️ Kills: {create_progress_bar(player['Kills Progress'])}\n"
                     f"({player['Kills Needed']:.0f} remaining)\n"
                     f"🤕 Deaths: {create_progress_bar(player['Deaths Progress'])}\n"
                     f"({player['Deaths Needed']:.0f} remaining)"
                 )
-
-                # Перевіряємо, чи додавання нового поля не перевищить ліміт (25 полів на embed)
-                # Або, якщо ви хочете бути більш точним, можете оцінювати довжину символів
-                if fields_count >= 25:
-                    all_embeds.append(current_embed)
-                    current_embed = discord.Embed(title="⚠️ Players who have not met the requirements (continued):",
-                                                  color=discord.Color.orange())
-                    fields_count = 0
 
                 current_embed.add_field(
                     name=f"{player['Governor Name']} (ID: {player['Governor ID']})",
@@ -327,23 +336,23 @@ async def requirements(ctx):
                 fields_count += 1
 
             # Додаємо останній embed, якщо він не порожній
-            if fields_count > 0:
+            if current_embed is not None and fields_count > 0:
                 all_embeds.append(current_embed)
 
-            # Якщо є лише один embed, відправляємо його без кнопок
-            if len(all_embeds) == 1:
+            # Відправка пагінованого повідомлення або просто одного embed
+            if len(all_embeds) == 0:  # Це може статися, якщо not_completed був порожнім, але ми обробили його вище
+                embed = discord.Embed(title="🎉 All players have met the requirements!", color=discord.Color.green())
+                await ctx.send(embed=embed)
+            elif len(all_embeds) == 1:
                 await ctx.send(embed=all_embeds[0])
             else:
-                # Створюємо View з кнопками та відправляємо перший embed
                 view = PaginationView(all_embeds)
+                # Відправляємо перше повідомлення, view прикріплюється до нього
                 message = await ctx.send(embed=all_embeds[0], view=view)
-                view.message = message  # Зберігаємо посилання на повідомлення для таймауту
-
+                view.message = message  # Передаємо посилання на відправлене повідомлення у View
     except Exception as e:
         await ctx.send(f"An error occurred while processing the !req command: {str(e)}")
 
-
-# ... решта вашого коду ...
 @bot.command()
 async def kd_stats(ctx):
     try:
