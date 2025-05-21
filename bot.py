@@ -17,15 +17,16 @@ class PaginationView(discord.ui.View):
         self.embeds = embeds
         self.current_page = 0
         self.message = None # Буде встановлено після відправки повідомлення
-
-        self.add_item(discord.ui.Button(label="⬅️ Previous", custom_id="prev_page", style=discord.ButtonStyle.blurple))
-        self.add_item(discord.ui.Button(label="➡️ Next", custom_id="next_page", style=discord.ButtonStyle.blurple))
-        self.update_buttons()
+        self.update_buttons() # Викликаємо після того, як кнопки будуть додані декораторами
 
     def update_buttons(self):
-        # Вмикаємо/вимикаємо кнопки залежно від поточної сторінки
-        self.children[0].disabled = (self.current_page == 0) # Кнопка "Previous"
-        self.children[1].disabled = (self.current_page == len(self.embeds) - 1) # Кнопка "Next"
+        # Отримуємо доступ до кнопок через їх custom_id або перевіряємо, що children не порожній
+        # Якщо ви використовуєте декоратори, кнопки будуть додані автоматично.
+        # Тому нам потрібно знайти кнопки за їх custom_id або переконатися, що вони вже існують.
+        # Простий спосіб - перевірити, чи є діти у View.
+        if len(self.children) >= 2: # Перевіряємо, чи є кнопки
+            self.children[0].disabled = (self.current_page == 0) # Кнопка "Previous"
+            self.children[1].disabled = (self.current_page == len(self.embeds) - 1) # Кнопка "Next"
 
     @discord.ui.button(label="⬅️ Previous", style=discord.ButtonStyle.blurple, custom_id="prev_page")
     async def previous_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -34,7 +35,9 @@ class PaginationView(discord.ui.View):
             self.update_buttons()
             await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
         else:
-            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена або натиснута, коли вимкнена
+            # Якщо кнопка вимкнена, і хтось її натиснув (через затримку або швидке натискання),
+            # просто defer, щоб уникнути помилки "interaction already acknowledged"
+            await interaction.response.defer()
 
     @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.blurple, custom_id="next_page")
     async def next_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -43,7 +46,7 @@ class PaginationView(discord.ui.View):
             self.update_buttons()
             await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
         else:
-            await interaction.response.defer() # Нічого не робимо, якщо кнопка вимкнена або натиснута, коли вимкнена
+            await interaction.response.defer()
 
     async def on_timeout(self):
         # Вимкнути всі кнопки після таймауту
