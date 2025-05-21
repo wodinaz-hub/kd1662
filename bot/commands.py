@@ -13,34 +13,38 @@ ITEMS_PER_PAGE = 5
 
 
 def format_number_custom(num_value):
+    print(f"DEBUG: format_number_custom received: {num_value} (type: {type(num_value)})")  # Лог
+
     if not isinstance(num_value, (int, float)):
+        print(f"DEBUG: Not a number, returning: {str(num_value)}")  # Лог
         return str(num_value)  # Повертаємо як є, якщо не число
 
-    # Перетворюємо число в рядок, щоб потім маніпулювати роздільниками
-    # Для цілих чисел - без десяткової частини
     if float(num_value).is_integer():
         num_str = str(int(num_value))
     else:
-        # Для десяткових чисел - з двома знаками після коми (тимчасово з крапкою як десятковим)
         num_str = f"{num_value:.2f}"
 
-    parts = num_str.split('.')  # Розділяємо на цілу та дробову частини (якщо є)
+    print(f"DEBUG: num_str after initial formatting: {num_str}")  # Лог
+
+    parts = num_str.split('.')
     integer_part = parts[0]
     decimal_part = parts[1] if len(parts) > 1 else ""
 
-    # Форматуємо цілу частину з крапкою як роздільником тисячних
     formatted_integer_part = ""
     for i, digit in enumerate(reversed(integer_part)):
         formatted_integer_part += digit
         if (i + 1) % 3 == 0 and (i + 1) != len(integer_part):
             formatted_integer_part += "."
-    formatted_integer_part = formatted_integer_part[::-1]  # Перевертаємо назад
+    formatted_integer_part = formatted_integer_part[::-1]
 
-    # Збираємо остаточний рядок
+    result = ""
     if decimal_part:
-        return f"{formatted_integer_part},{decimal_part}"  # Кома як десятковий роздільник
+        result = f"{formatted_integer_part},{decimal_part}"
     else:
-        return formatted_integer_part
+        result = formatted_integer_part
+
+    print(f"DEBUG: format_number_custom returning: {result}")  # Лог
+    return result
 
 
 def setup_commands(bot_instance):
@@ -106,7 +110,7 @@ def setup_commands(bot_instance):
                     'Required Kills'] * 100 if row['Required Kills'] != 0 else (
                     100 if (row['Kill Points_after'] - row['Kill Points_before']) >= 0 else 0)
                 deaths_progress_percent = (row['Deads_after'] - row['Deads_before']) / row['Required Deaths'] * 100 if \
-                row['Required Deaths'] != 0 else (100 if (row['Deads_after'] - row['Deads_before']) >= 0 else 0)
+                    row['Required Deaths'] != 0 else (100 if (row['Deads_after'] - row['Deads_before']) >= 0 else 0)
 
                 kills_needed = max(0, row['Required Kills'] - (row['Kill Points_after'] - row['Kill Points_before']))
                 deaths_needed = max(0, row['Required Deaths'] - (row['Deads_after'] - row['Deads_before']))
@@ -175,22 +179,22 @@ def setup_commands(bot_instance):
             embed = discord.Embed(title="📊 Kingdom Overview", color=discord.Color.green())
             embed.add_field(
                 name="⚔️ Total Kills Gained:",
-                value=f"{format_number_custom(total_kills_gained)}", # ЗАСТОСОВАНО
+                value=f"{format_number_custom(total_kills_gained)}",
                 inline=False
             )
             embed.add_field(
                 name="💀 Total Deaths Gained:",
-                value=f"{format_number_custom(total_deaths_gained)}", # ЗАСТОСОВАНО
+                value=f"{format_number_custom(total_deaths_gained)}",
                 inline=False
             )
             embed.add_field(
                 name="💪 Change in Total Power:",
-                value=f"{format_number_custom(total_power_change)}", # ЗАСТОСОВАНО
+                value=f"{format_number_custom(total_power_change)}",
                 inline=False
             )
             embed.add_field(
                 name="⚡ Current Total Power:",
-                value=f"{format_number_custom(current_total_power)}",  # ЗАСТОСОВАНО
+                value=f"{format_number_custom(current_total_power)}",
                 inline=False
             )
             await ctx.send(embed=embed)
@@ -230,11 +234,11 @@ def setup_commands(bot_instance):
 
                     field_name = f"#{current_rank}. {row['Governor Name']}"
                     field_value = (
-                        f"🏅 DKP: {format_number_custom(row['DKP'])}\n" # ЗАСТОСОВАНО
-                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n" # ЗАСТОСОВАНО
-                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n" # ЗАСТОСОВАНО
-                        f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n" # ЗАСТОСОВАНО
-                        f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}" # ЗАСТОСОВАНО
+                        f"🏅 DKP: {format_number_custom(row['DKP'])}\n"
+                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"
+                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"
+                        f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n"
+                        f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}"
                     )
                     embed.add_field(
                         name=field_name,
@@ -266,24 +270,24 @@ def setup_commands(bot_instance):
                 embed = discord.Embed(title=f"📊 Player Statistics: {player_stats['governor_name']} (ID: {player_id})",
                                       color=discord.Color.blue())
                 embed.add_field(name="🔹 Matchmaking Power:",
-                                value=f"{format_number_custom(player_stats['matchmaking_power'])}", inline=False) # ЗАСТОСОВАНО
+                                value=f"{format_number_custom(player_stats['matchmaking_power'])}", inline=False)
                 embed.add_field(name="🔹 Power Change:", value=f"{format_number_custom(player_stats['power_change'])}",
-                                inline=False) # ЗАСТОСОВАНО
+                                inline=False)
 
                 embed.add_field(name="⚔️ Kills:", value=(
-                    f"Required: {format_number_custom(player_stats['required_kills'])}\n" # ЗАСТОСОВАНО
-                    f"Total: {format_number_custom(player_stats['kills_change'])}\n" # ЗАСТОСОВАНО
-                    f"T4: {format_number_custom(player_stats['tier4_kills_change'])}\n" # ЗАСТОСОВАНО
-                    f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n" # ЗАСТОСОВАНО
+                    f"Required: {format_number_custom(player_stats['required_kills'])}\n"
+                    f"Total: {format_number_custom(player_stats['kills_change'])}\n"
+                    f"T4: {format_number_custom(player_stats['tier4_kills_change'])}\n"
+                    f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n"
                     f"Progress: {player_stats['kills_completion']:.2f}%"
                 ), inline=True)
                 embed.add_field(name="💀 Deaths:", value=(
-                    f"Required: {format_number_custom(player_stats['required_deaths'])}\n" # ЗАСТОСОВАНО
-                    f"Total: {format_number_custom(player_stats['deads_change'])}\n" # ЗАСТОСОВАНО
+                    f"Required: {format_number_custom(player_stats['required_deaths'])}\n"
+                    f"Total: {format_number_custom(player_stats['deads_change'])}\n"
                     f"Progress: {player_stats['deads_completion']:.2f}%"
                 ), inline=True)
 
-                embed.add_field(name="🏅 DKP:", value=f"{format_number_custom(player_stats['dkp'])}", inline=False) # ЗАСТОСОВАНО
+                embed.add_field(name="🏅 DKP:", value=f"{format_number_custom(player_stats['dkp'])}", inline=False)
                 embed.add_field(name="🏆 DKP Rank:", value=f"#{player_stats['rank']}", inline=False)
 
                 chart_path = create_dual_semi_circular_progress(
