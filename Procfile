@@ -1,0 +1,1 @@
+web: python kd1662/main.py
