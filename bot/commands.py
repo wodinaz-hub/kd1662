@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import pandas as pd
 import os
+import numpy as np  # <-- Додано: Імпорт numpy
 
 from data_processing.calculator import get_player_stats
 from utils.chart_generator import create_dual_semi_circular_progress
@@ -13,18 +14,20 @@ ITEMS_PER_PAGE = 5
 
 
 def format_number_custom(num_value):
-    print(f"DEBUG: format_number_custom received: {num_value} (type: {type(num_value)})")  # Лог
-
-    if not isinstance(num_value, (int, float)):
-        print(f"DEBUG: Not a number, returning: {str(num_value)}")  # Лог
+    # Тепер включаємо numpy.int64 та numpy.float64 в перевірку
+    if not isinstance(num_value, (int, float, np.int64, np.float64)):  # <-- Змінено: Додано np.int64, np.float64
         return str(num_value)  # Повертаємо як є, якщо не число
+
+    # Для numpy типів, перетворюємо їх на стандартні Python int/float
+    if isinstance(num_value, np.int64):
+        num_value = int(num_value)
+    elif isinstance(num_value, np.float64):
+        num_value = float(num_value)
 
     if float(num_value).is_integer():
         num_str = str(int(num_value))
     else:
         num_str = f"{num_value:.2f}"
-
-    print(f"DEBUG: num_str after initial formatting: {num_str}")  # Лог
 
     parts = num_str.split('.')
     integer_part = parts[0]
@@ -43,7 +46,6 @@ def format_number_custom(num_value):
     else:
         result = formatted_integer_part
 
-    print(f"DEBUG: format_number_custom returning: {result}")  # Лог
     return result
 
 
