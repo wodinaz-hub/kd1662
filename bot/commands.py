@@ -175,22 +175,22 @@ def setup_commands(bot_instance):
             embed = discord.Embed(title="📊 Kingdom Overview", color=discord.Color.green())
             embed.add_field(
                 name="⚔️ Total Kills Gained:",
-                value=f"{format_number_custom(total_kills_gained)}",
+                value=f"{format_number_custom(total_kills_gained)}", # ЗАСТОСОВАНО
                 inline=False
             )
             embed.add_field(
                 name="💀 Total Deaths Gained:",
-                value=f"{format_number_custom(total_deaths_gained)}",
+                value=f"{format_number_custom(total_deaths_gained)}", # ЗАСТОСОВАНО
                 inline=False
             )
             embed.add_field(
                 name="💪 Change in Total Power:",
-                value=f"{format_number_custom(total_power_change)}",
+                value=f"{format_number_custom(total_power_change)}", # ЗАСТОСОВАНО
                 inline=False
             )
             embed.add_field(
                 name="⚡ Current Total Power:",
-                value=f"{format_number_custom(current_total_power)}",  # ТУТ ЗАСТОСОВУЄТЬСЯ ФОРМАТУВАННЯ
+                value=f"{format_number_custom(current_total_power)}",  # ЗАСТОСОВАНО
                 inline=False
             )
             await ctx.send(embed=embed)
@@ -230,11 +230,11 @@ def setup_commands(bot_instance):
 
                     field_name = f"#{current_rank}. {row['Governor Name']}"
                     field_value = (
-                        f"🏅 DKP: {format_number_custom(row['DKP'])}\n"
-                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"
-                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"
-                        f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n"
-                        f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}"
+                        f"🏅 DKP: {format_number_custom(row['DKP'])}\n" # ЗАСТОСОВАНО
+                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n" # ЗАСТОСОВАНО
+                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n" # ЗАСТОСОВАНО
+                        f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n" # ЗАСТОСОВАНО
+                        f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}" # ЗАСТОСОВАНО
                     )
                     embed.add_field(
                         name=field_name,
@@ -266,24 +266,24 @@ def setup_commands(bot_instance):
                 embed = discord.Embed(title=f"📊 Player Statistics: {player_stats['governor_name']} (ID: {player_id})",
                                       color=discord.Color.blue())
                 embed.add_field(name="🔹 Matchmaking Power:",
-                                value=f"{format_number_custom(player_stats['matchmaking_power'])}", inline=False)
+                                value=f"{format_number_custom(player_stats['matchmaking_power'])}", inline=False) # ЗАСТОСОВАНО
                 embed.add_field(name="🔹 Power Change:", value=f"{format_number_custom(player_stats['power_change'])}",
-                                inline=False)
+                                inline=False) # ЗАСТОСОВАНО
 
                 embed.add_field(name="⚔️ Kills:", value=(
-                    f"Required: {format_number_custom(player_stats['required_kills'])}\n"
-                    f"Total: {format_number_custom(player_stats['kills_change'])}\n"
-                    f"T4: {format_number_custom(player_stats['tier4_kills_change'])}\n"
-                    f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n"
+                    f"Required: {format_number_custom(player_stats['required_kills'])}\n" # ЗАСТОСОВАНО
+                    f"Total: {format_number_custom(player_stats['kills_change'])}\n" # ЗАСТОСОВАНО
+                    f"T4: {format_number_custom(player_stats['tier4_kills_change'])}\n" # ЗАСТОСОВАНО
+                    f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n" # ЗАСТОСОВАНО
                     f"Progress: {player_stats['kills_completion']:.2f}%"
                 ), inline=True)
                 embed.add_field(name="💀 Deaths:", value=(
-                    f"Required: {format_number_custom(player_stats['required_deaths'])}\n"
-                    f"Total: {format_number_custom(player_stats['deads_change'])}\n"
+                    f"Required: {format_number_custom(player_stats['required_deaths'])}\n" # ЗАСТОСОВАНО
+                    f"Total: {format_number_custom(player_stats['deads_change'])}\n" # ЗАСТОСОВАНО
                     f"Progress: {player_stats['deads_completion']:.2f}%"
                 ), inline=True)
 
-                embed.add_field(name="🏅 DKP:", value=f"{format_number_custom(player_stats['dkp'])}", inline=False)
+                embed.add_field(name="🏅 DKP:", value=f"{format_number_custom(player_stats['dkp'])}", inline=False) # ЗАСТОСОВАНО
                 embed.add_field(name="🏆 DKP Rank:", value=f"#{player_stats['rank']}", inline=False)
 
                 chart_path = create_dual_semi_circular_progress(
