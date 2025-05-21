@@ -14,25 +14,30 @@ from typing import List, Tuple
 ITEMS_PER_PAGE = 5
 
 
-# Функція для форматування чисел з пробілом як роздільником тисячних
-# та комою як десятковим (якщо потрібно)
+# Функція для форматування чисел
 def format_number_custom(num_value):
     if not isinstance(num_value, (int, float)):
         return str(num_value)  # Повертаємо як є, якщо не число
 
-    # Перетворюємо в int для цілих чисел, щоб уникнути .00
+    # Для цілих чисел
     if float(num_value).is_integer():
-        # Форматуємо як ціле число, потім замінюємо стандартний роздільник тисячних (кому) на пробіл
-        return f"{int(num_value):,}".replace(",", " ")
+        # Форматуємо як ціле число, потім замінюємо стандартний роздільник тисячних (кому) на крапку
+        # і видаляємо десяткову частину
+        return f"{int(num_value):,}".replace(",", ".")
     else:
-        # Для десяткових чисел, форматуємо з двома знаками після коми
-        # та замінюємо роздільники
-        formatted_with_dot = f"{num_value:,.2f}"  # Наприклад: 1,234,567.89
+        # Для десяткових чисел:
+        # 1. Форматуємо число з комою як роздільником тисячних і крапкою як десятковим
+        #    (стандартна поведінка Python для f-strings)
+        formatted_with_std_separators = f"{num_value:,.2f}"  # Наприклад: 1,234,567.89
 
-        # Замінюємо кому на пробіл для роздільника тисячних
-        # Замінюємо крапку на кому для десяткового роздільника
-        temp_char = '#'  # Вибираємо символ, який точно не зустрінеться в числі
-        result = formatted_with_dot.replace('.', temp_char).replace(',', ' ').replace(temp_char, ',')
+        # 2. Замінюємо стандартний роздільник тисячних (кому) на тимчасовий символ
+        #    (щоб не плутати з крапкою, яка тепер буде роздільником тисячних)
+        temp_comma_replacement = '#'  # Вибираємо символ, який точно не зустрінеться в числі
+
+        # 3. Замінюємо десятковий роздільник (крапку) на бажану кому
+        # 4. Замінюємо тимчасовий символ (який був комою) на бажану крапку
+        result = formatted_with_std_separators.replace(',', temp_comma_replacement).replace('.', ',').replace(
+            temp_comma_replacement, '.')
         return result
 
 
@@ -136,7 +141,7 @@ def setup_commands(bot_instance):
                     field_value = (
                         f"⚔️ Kills: {create_progress_bar(player_data['Kills Progress'])}\n"
                         f"({format_number_custom(player_data['Kills Needed'])} remaining)\n"
-                        f"🤕 Deaths: {create_progress_bar(player_data['Deaths Progress'])}\n"
+                        f"💀 Deaths: {create_progress_bar(player_data['Deaths Progress'])}\n"  # ЗМІНА ТУТ
                         f"({format_number_custom(player_data['Deaths Needed'])} remaining)"
                     )
                     embed.add_field(
@@ -146,8 +151,8 @@ def setup_commands(bot_instance):
                     )
 
                 # Додаємо футер з номером сторінки
-                embed.set_footer(
-                    text=f"Page {len(all_req_embeds) + 1}/{(len(not_completed_players_data) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE}")
+                total_pages = (len(not_completed_players_data) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
+                embed.set_footer(text=f"Page {len(all_req_embeds) + 1}/{total_pages}")
                 all_req_embeds.append(embed)
 
             # Передаємо список Embed'ів у PaginationView
@@ -178,7 +183,7 @@ def setup_commands(bot_instance):
                 inline=False
             )
             embed.add_field(
-                name="🤕 Total Deaths Gained:",
+                name="💀 Total Deaths Gained:",  # ЗМІНА ТУТ
                 value=f"{format_number_custom(total_deaths_gained)}",
                 inline=False
             )
@@ -224,15 +229,17 @@ def setup_commands(bot_instance):
                     color=discord.Color.gold()
                 )
 
-                for index, row in current_page_players.iterrows():
-                    # Ранг буде розраховуватися на основі оригінального індексу + 1
-                    # (або просто i + локальний_індекс + 1 для цього Embed)
-                    original_rank = df.index.get_loc(row.name) + 1  # Знаходимо оригінальний ранг до slice
+                # Початковий ранг для цієї сторінки
+                start_rank = i
 
-                    field_name = f"#{original_rank}. {row['Governor Name']}"
+                for local_index, row in current_page_players.iterrows():
+                    # Ранг буде розраховуватися як початковий ранг сторінки + локальний індекс + 1
+                    current_rank = start_rank + current_page_players.index.get_loc(row.name) + 1
+
+                    field_name = f"#{current_rank}. {row['Governor Name']}"
                     field_value = (
                         f"🏅 DKP: {format_number_custom(row['DKP'])}\n"
-                        f"🤕 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"
+                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"  # ЗМІНА ТУТ
                         f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"
                         f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n"
                         f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}"
@@ -244,8 +251,8 @@ def setup_commands(bot_instance):
                     )
 
                 # Додаємо футер з номером сторінки
-                embed.set_footer(
-                    text=f"Page {len(all_top_embeds) + 1}/{(len(result_sorted) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE}")
+                total_pages = (len(result_sorted) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
+                embed.set_footer(text=f"Page {len(all_top_embeds) + 1}/{total_pages}")
                 all_top_embeds.append(embed)
 
             # Передаємо список Embed'ів у PaginationView
@@ -280,7 +287,7 @@ def setup_commands(bot_instance):
                     f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n"
                     f"Progress: {player_stats['kills_completion']:.2f}%"
                 ), inline=True)
-                embed.add_field(name="🤕 Deaths:", value=(
+                embed.add_field(name="💀 Deaths:", value=(  # ЗМІНА ТУТ
                     f"Required: {format_number_custom(player_stats['required_deaths'])}\n"
                     f"Total: {format_number_custom(player_stats['deads_change'])}\n"
                     f"Progress: {player_stats['deads_completion']:.2f}%"
