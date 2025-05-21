@@ -1,44 +1,46 @@
 import discord
 from discord.ext import commands
 import pandas as pd
-import os  # Для os.remove, який використовується в `stats`
+import os
 
-# Імпортуємо функції з інших модулів (ваші імпорти)
-from data_processing.calculator import get_player_stats  # Функція для отримання статистики гравця
-from utils.chart_generator import create_dual_semi_circular_progress  # Функція для графіків
-from utils.helpers import create_progress_bar  # Допоміжні функції
-from bot.view import PaginationView  # Клас для пагінації
+from data_processing.calculator import get_player_stats
+from utils.chart_generator import create_dual_semi_circular_progress
+from utils.helpers import create_progress_bar
+from bot.view import PaginationView
 from typing import List, Tuple
 
-# Константа для кількості елементів на сторінку
 ITEMS_PER_PAGE = 5
 
 
-# Функція для форматування чисел
 def format_number_custom(num_value):
     if not isinstance(num_value, (int, float)):
         return str(num_value)  # Повертаємо як є, якщо не число
 
-    # Для цілих чисел
+    # Перетворюємо число в рядок, щоб потім маніпулювати роздільниками
+    # Для цілих чисел - без десяткової частини
     if float(num_value).is_integer():
-        # Форматуємо як ціле число, потім замінюємо стандартний роздільник тисячних (кому) на крапку
-        # і видаляємо десяткову частину
-        return f"{int(num_value):,}".replace(",", ".")
+        num_str = str(int(num_value))
     else:
-        # Для десяткових чисел:
-        # 1. Форматуємо число з комою як роздільником тисячних і крапкою як десятковим
-        #    (стандартна поведінка Python для f-strings)
-        formatted_with_std_separators = f"{num_value:,.2f}"  # Наприклад: 1,234,567.89
+        # Для десяткових чисел - з двома знаками після коми (тимчасово з крапкою як десятковим)
+        num_str = f"{num_value:.2f}"
 
-        # 2. Замінюємо стандартний роздільник тисячних (кому) на тимчасовий символ
-        #    (щоб не плутати з крапкою, яка тепер буде роздільником тисячних)
-        temp_comma_replacement = '#'  # Вибираємо символ, який точно не зустрінеться в числі
+    parts = num_str.split('.')  # Розділяємо на цілу та дробову частини (якщо є)
+    integer_part = parts[0]
+    decimal_part = parts[1] if len(parts) > 1 else ""
 
-        # 3. Замінюємо десятковий роздільник (крапку) на бажану кому
-        # 4. Замінюємо тимчасовий символ (який був комою) на бажану крапку
-        result = formatted_with_std_separators.replace(',', temp_comma_replacement).replace('.', ',').replace(
-            temp_comma_replacement, '.')
-        return result
+    # Форматуємо цілу частину з крапкою як роздільником тисячних
+    formatted_integer_part = ""
+    for i, digit in enumerate(reversed(integer_part)):
+        formatted_integer_part += digit
+        if (i + 1) % 3 == 0 and (i + 1) != len(integer_part):
+            formatted_integer_part += "."
+    formatted_integer_part = formatted_integer_part[::-1]  # Перевертаємо назад
+
+    # Збираємо остаточний рядок
+    if decimal_part:
+        return f"{formatted_integer_part},{decimal_part}"  # Кома як десятковий роздільник
+    else:
+        return formatted_integer_part
 
 
 def setup_commands(bot_instance):
@@ -48,7 +50,6 @@ def setup_commands(bot_instance):
         else:
             print("Warning: result_df not found on bot_instance. Attempting to read from results.xlsx.")
             try:
-                # Ця гілка має спрацьовувати лише як запасний варіант
                 return pd.read_excel('results.xlsx')
             except FileNotFoundError:
                 print("Error: results.xlsx not found. Some commands may not function.")
@@ -81,7 +82,7 @@ def setup_commands(bot_instance):
             inline=False,
         )
         embed.add_field(
-            name="!top",  # БЕЗ limit, бо пагінація
+            name="!top",
             value=(
                 "Displays a list of the top players by DKP (5 per page).\n"
                 "For each player, shows their rank, name, DKP, total deaths, total kill points, and T4 & T5 kills."
@@ -101,7 +102,6 @@ def setup_commands(bot_instance):
 
             not_completed_players_data = []
             for index, row in df.iterrows():
-                # Перевіряємо на нуль перед діленням, щоб уникнути ZeroDivisionError
                 kills_progress_percent = (row['Kill Points_after'] - row['Kill Points_before']) / row[
                     'Required Kills'] * 100 if row['Required Kills'] != 0 else (
                     100 if (row['Kill Points_after'] - row['Kill Points_before']) >= 0 else 0)
@@ -121,13 +121,11 @@ def setup_commands(bot_instance):
                         'Deaths Progress': deaths_progress_percent
                     })
 
-            # Якщо ніхто не потребує донату, відправляємо просте повідомлення
             if not not_completed_players_data:
                 embed = discord.Embed(title="🎉 All players have met the requirements!", color=discord.Color.green())
                 await ctx.send(embed=embed)
                 return
 
-            # Розділяємо дані на сторінки та створюємо Embed для кожної сторінки
             all_req_embeds = []
             for i in range(0, len(not_completed_players_data), ITEMS_PER_PAGE):
                 current_page_players = not_completed_players_data[i:i + ITEMS_PER_PAGE]
@@ -141,7 +139,7 @@ def setup_commands(bot_instance):
                     field_value = (
                         f"⚔️ Kills: {create_progress_bar(player_data['Kills Progress'])}\n"
                         f"({format_number_custom(player_data['Kills Needed'])} remaining)\n"
-                        f"💀 Deaths: {create_progress_bar(player_data['Deaths Progress'])}\n"  # ЗМІНА ТУТ
+                        f"💀 Deaths: {create_progress_bar(player_data['Deaths Progress'])}\n"
                         f"({format_number_custom(player_data['Deaths Needed'])} remaining)"
                     )
                     embed.add_field(
@@ -150,15 +148,13 @@ def setup_commands(bot_instance):
                         inline=False
                     )
 
-                # Додаємо футер з номером сторінки
                 total_pages = (len(not_completed_players_data) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
                 embed.set_footer(text=f"Page {len(all_req_embeds) + 1}/{total_pages}")
                 all_req_embeds.append(embed)
 
-            # Передаємо список Embed'ів у PaginationView
             view = PaginationView(all_req_embeds)
             message = await ctx.send(embed=all_req_embeds[0], view=view)
-            view.message = message  # Зберігаємо повідомлення для подальшого редагування
+            view.message = message
         except Exception as e:
             await ctx.send(f"An error occurred while processing the !req command: {str(e)}")
 
@@ -183,7 +179,7 @@ def setup_commands(bot_instance):
                 inline=False
             )
             embed.add_field(
-                name="💀 Total Deaths Gained:",  # ЗМІНА ТУТ
+                name="💀 Total Deaths Gained:",
                 value=f"{format_number_custom(total_deaths_gained)}",
                 inline=False
             )
@@ -194,7 +190,7 @@ def setup_commands(bot_instance):
             )
             embed.add_field(
                 name="⚡ Current Total Power:",
-                value=f"{format_number_custom(current_total_power)}",
+                value=f"{format_number_custom(current_total_power)}",  # ТУТ ЗАСТОСОВУЄТЬСЯ ФОРМАТУВАННЯ
                 inline=False
             )
             await ctx.send(embed=embed)
@@ -203,23 +199,21 @@ def setup_commands(bot_instance):
             await ctx.send(f"An error occurred: {str(e)}")
 
     @bot_instance.command()
-    async def top(ctx):  # Без аргумента limit, оскільки пагінація
+    async def top(ctx):
         try:
             df = get_result_df()
             if df.empty:
                 await ctx.send("Error: Data not loaded. Please ensure data files are present and bot restarted.")
                 return
 
-            # Переконаємось, що 'DKP' є числом
             df['DKP'] = pd.to_numeric(df['DKP'], errors='coerce').fillna(0)
 
-            result_sorted = df.sort_values(by='DKP', ascending=False)  # Сортуємо весь DataFrame
+            result_sorted = df.sort_values(by='DKP', ascending=False)
 
             if result_sorted.empty:
                 await ctx.send("No players found to display in top list.")
                 return
 
-            # Розділяємо дані на сторінки та створюємо Embed для кожної сторінки
             all_top_embeds = []
             for i in range(0, len(result_sorted), ITEMS_PER_PAGE):
                 current_page_players = result_sorted.iloc[i:i + ITEMS_PER_PAGE]
@@ -229,17 +223,15 @@ def setup_commands(bot_instance):
                     color=discord.Color.gold()
                 )
 
-                # Початковий ранг для цієї сторінки
                 start_rank = i
 
                 for local_index, row in current_page_players.iterrows():
-                    # Ранг буде розраховуватися як початковий ранг сторінки + локальний індекс + 1
                     current_rank = start_rank + current_page_players.index.get_loc(row.name) + 1
 
                     field_name = f"#{current_rank}. {row['Governor Name']}"
                     field_value = (
                         f"🏅 DKP: {format_number_custom(row['DKP'])}\n"
-                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"  # ЗМІНА ТУТ
+                        f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"
                         f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"
                         f"T4 Kills Gained: {format_number_custom(row['Tier 4 Kills_after'] - row['Tier 4 Kills_before'])}\n"
                         f"T5 Kills Gained: {format_number_custom(row['Tier 5 Kills_after'] - row['Tier 5 Kills_before'])}"
@@ -250,15 +242,13 @@ def setup_commands(bot_instance):
                         inline=False
                     )
 
-                # Додаємо футер з номером сторінки
                 total_pages = (len(result_sorted) + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
                 embed.set_footer(text=f"Page {len(all_top_embeds) + 1}/{total_pages}")
                 all_top_embeds.append(embed)
 
-            # Передаємо список Embed'ів у PaginationView
             view = PaginationView(all_top_embeds)
             message = await ctx.send(embed=all_top_embeds[0], view=view)
-            view.message = message  # Зберігаємо повідомлення для подальшого редагування
+            view.message = message
         except Exception as e:
             await ctx.send(f"An error occurred while processing the !top command: {str(e)}")
 
@@ -287,7 +277,7 @@ def setup_commands(bot_instance):
                     f"T5: {format_number_custom(player_stats['tier5_kills_change'])}\n"
                     f"Progress: {player_stats['kills_completion']:.2f}%"
                 ), inline=True)
-                embed.add_field(name="💀 Deaths:", value=(  # ЗМІНА ТУТ
+                embed.add_field(name="💀 Deaths:", value=(
                     f"Required: {format_number_custom(player_stats['required_deaths'])}\n"
                     f"Total: {format_number_custom(player_stats['deads_change'])}\n"
                     f"Progress: {player_stats['deads_completion']:.2f}%"
@@ -306,7 +296,7 @@ def setup_commands(bot_instance):
                         await ctx.send(embed=embed, file=picture)
                     os.remove(chart_path)
                 else:
-                    await ctx.send(embed=embed)  # Відправляємо embed без графіку, якщо не вдалося створити
+                    await ctx.send(embed=embed)
                     print(f"Warning: Chart file not created at {chart_path}. Sending embed without file.")
 
             else:
