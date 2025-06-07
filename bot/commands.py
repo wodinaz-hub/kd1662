@@ -100,6 +100,14 @@ def setup_commands(bot_instance):
 
     @bot_instance.command(name="req")
     async def requirements(ctx):
+        logging.debug("Команда !req була викликана.")  # Це буде видно в логах
+        print("DEBUG: Команда !req була викликана.")  # Це буде видно в консолі PyCharm
+        try:
+            df = get_result_df()
+            # ... решта вашого коду ...
+        except Exception as e:
+            logging.error(f"Помилка в команді !req: {e}", exc_info=True)  # Логуватиме traceback
+            await ctx.send(f"An error occurred while processing the !req command: {str(e)}")
         try:
             df = get_result_df()
             if df.empty:
