@@ -245,7 +245,7 @@ def get_player_stats(result_df, player_id):
 
     # Використовуємо .get() з значеннями за замовчуванням
     governor_name = player.get('Governor Name', 'N/A')
-    matchmaking_power = player.get('Power_after', 0)
+    matchmaking_power = player.get('Power_at_KVK_start', 0)
     power_change = player.get('Power Change', 0)
     tier4_kills_change = player.get('Tier 4 Kills Change', 0)
     tier5_kills_change = player.get('Tier 5 Kills Change', 0)
