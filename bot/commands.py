@@ -330,7 +330,7 @@ def setup_commands(bot_instance: commands.Bot):
             logging.exception("ERROR: Виникла непередбачена помилка в команді !kd_stats.")
             await ctx.send(f"An error occurred: {str(e)}")
 
-    # --- Команда !top (повернута до попередньої версії) ---
+    # --- Команда !top (з обмеженням до 50) ---
     @bot_instance.command()
     async def top(ctx):
         logging.debug("top: Викликано команду !top.")
@@ -353,7 +353,8 @@ def setup_commands(bot_instance: commands.Bot):
             # Конвертація DKP до числового типу (як було раніше)
             df.loc[:, 'DKP'] = pd.to_numeric(df['DKP'], errors='coerce').fillna(0)
 
-            result_sorted = df.sort_values(by='DKP', ascending=False)
+            # *** ЗМІНА ТУТ: Обмеження до 50 найкращих гравців ***
+            result_sorted = df.sort_values(by='DKP', ascending=False).head(50)
 
             if result_sorted.empty:
                 await ctx.send("No players found to display in top list.")
@@ -361,32 +362,32 @@ def setup_commands(bot_instance: commands.Bot):
                 return
 
             all_top_embeds = []
-            for i in range(0, len(result_sorted), ITEMS_PER_PAGE):
+            for i in range(0, len(result_sorted), ITEMS_PER_PAGE):  # len(result_sorted) тепер буде максимум 50
                 current_page_players = result_sorted.iloc[i:i + ITEMS_PER_PAGE]
 
                 embed = discord.Embed(
-                    title="🏆 Top Players (KVK Gains)",
+                    title="🏆 Top 50 Players (KVK Gains)",  # Можна змінити заголовок на "Top 50"
                     color=discord.Color.gold()
                 )
 
-                start_rank = i
+                start_rank = i  # Rank will be based on the sorted list, not the original df index
 
                 for local_index, row in current_page_players.iterrows():
-                    current_rank = start_rank + current_page_players.index.get_loc(row.name) + 1
+                    # Correctly calculate rank based on the position within the sorted_players
+                    # The 'Rank' column should ideally already be in result_sorted from calculator.py
+                    # If not, you might need to re-rank after .head(50)
+                    # Assuming 'Rank' column is correctly passed and reflects the rank in the full list
+                    current_rank = row['Rank']  # Use the pre-calculated Rank from calculator.py
 
-                    field_name = f"#{current_rank}. {row['Governor Name']}"
+                    field_name = f"#{int(current_rank)}. {row['Governor Name']}"  # Ensure rank is int
 
-                    # Ця частина залишена як було, щоб уникнути помилки, що виникла
-                    # Якщо тут виникне помилка, ми знаємо, що потрібно буде перевірити
-                    # попередню обробку цих колонок або перевірити, чи вони завжди є числами.
-                    # За замовчуванням, вважаємо, що вони вже були оброблені або не містять NaN.
                     t4_kills_gained = row['Tier 4 Kills_after'] - row['Tier 4 Kills_before']
                     t5_kills_gained = row['Tier 5 Kills_after'] - row['Tier 5 Kills_before']
 
                     field_value = (
                         f"🏅 DKP: {format_number_custom(row['DKP'])}\n"
                         f"💀 Deaths Gained: {format_number_custom(row['Deads Change'])}\n"
-                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"
+                        f"⚔️ Kill Points Gained: {format_number_custom(row['Kills Change'])}\n"  # Це Kills Change, а не Total KP
                         f"T4 Kills Gained: {format_number_custom(t4_kills_gained)}\n"
                         f"T5 Kills Gained: {format_number_custom(t5_kills_gained)}"
                     )
