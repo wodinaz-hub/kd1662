@@ -437,6 +437,7 @@ def setup_commands(bot_instance: commands.Bot):
                                 inline=False)
 
                 embed.add_field(name="⚔️ Kills:", value=(
+                    f"**KP: {format_number_custom(player_stats['kills_change'])}**\n"
                     f"Required: {format_number_custom(player_stats['required_kills'])}\n"
                     f"Total: {format_number_custom(player_stats['tier4_kills_change'] + player_stats['tier5_kills_change'])}\n"
                     f"T4: {format_number_custom(player_stats['tier4_kills_change'])}\n"

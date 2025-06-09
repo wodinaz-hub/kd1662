@@ -252,6 +252,9 @@ def get_player_stats(result_df, player_id):
     kills_change = player.get('Kills Change', 0)
     deads_change = player.get('Deads Change', 0)
 
+    # Додаємо Kill Points After
+    kill_points_after = player.get('Kill Points_after', 0)
+
     # Total Kills/Deaths тепер є окремими стовпцями
     total_kills = player.get('Total Kills', 0)
     total_deaths = player.get('Total Deaths', 0)
@@ -282,4 +285,5 @@ def get_player_stats(result_df, player_id):
         'deads_completion': deads_completion,
         'dkp': dkp,
         'rank': rank,
+        'kill_points_after': kill_points_after,
     }
