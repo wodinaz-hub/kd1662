@@ -1,82 +1,56 @@
 import os
+import logging
+import sys # Import sys for StreamHandler
 from dotenv import load_dotenv
-import discord
-from discord.ext import commands
-import logging # Додаємо логування
-import pandas as pd # Для ініціалізації pd.DataFrame()
 
-# Налаштування логування (дуже важливо для налагодження!)
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
-                    handlers=[
-                        logging.FileHandler("bot.log", encoding='utf-8'),
-                        logging.StreamHandler()
-                    ])
-logging.getLogger('discord').setLevel(logging.WARNING)
-logging.getLogger('discord.http').setLevel(logging.WARNING)
-logging.getLogger('matplotlib').setLevel(logging.WARNING) # Якщо використовуєте matplotlib, це може зменшити шум
+# Import bot_instance and run_bot directly from bot.commands
+from bot.commands import bot_instance, run_bot
 
-# Імпортуємо інстанс бота з bot.core
-from bot.core import bot
+# --- НАЧАЛО БЛОКА КОНФИГУРАЦИИ ЛОГИРОВАНИЯ (ОБНОВЛЕНО) ---
+# Создаем корневой логгер
+root_logger = logging.getLogger()
+root_logger.setLevel(logging.DEBUG) # Устанавливаем уровень DEBUG для корневого логгера
 
-# Імпортуємо calculate_stats з data_processing/calculator
-# calculator.py вже містить get_player_stats, тому окремий імпорт не потрібен
-from data_processing.calculator import calculate_stats
+# Очищаем существующие обработчики, чтобы избежать дублирования
+for handler in root_logger.handlers[:]:
+    root_logger.removeHandler(handler)
+    handler.close()
 
-# Імпортуємо setup_commands з bot.commands
-from bot.commands import setup_commands
+# Создаем хэндлер для вывода в консоль
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s')
+handler.setFormatter(formatter)
+handler.setLevel(logging.DEBUG) # Устанавливаем уровень DEBUG для хэндлера
+root_logger.addHandler(handler)
 
+# Настройка логирования для Discord.py
+logging.getLogger('discord').setLevel(logging.INFO) # Discord.py можно оставить на INFO
+logging.getLogger('discord.http').setLevel(logging.INFO) # Http запросы Discord.py тоже на INFO
+
+# Настройка логирования для ваших модулей
+# Теперь логгер в calculator.py использует __name__, т.е. 'data_processing.calculator'
+logging.getLogger('data_processing.calculator').setLevel(logging.DEBUG)
+# Теперь логгер в chart_generator.py использует __name__, т.е. 'utils.chart_generator'
+logging.getLogger('utils.chart_generator').setLevel(logging.DEBUG)
+# Логгер в helpers.py также использует __name__, т.е. 'utils.helpers'
+logging.getLogger('utils.helpers').setLevel(logging.DEBUG)
+# --- КОНЕЦ БЛОКА КОНФИГУРАЦИИ ЛОГИРОВАНИЯ ---
+
+
+logger = logging.getLogger('main') # Этот логгер теперь будет использовать настроенный выше root_logger
+
+# Load environment variables from .env file (e.g., DISCORD_BOT_TOKEN)
 load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Перевірка наявності токену
-if TOKEN is None:
-    logging.critical("DISCORD_TOKEN not found in .env file. Exiting.")
-    exit(1)
+# Get the bot token from environment variables
+BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-
-# Ця функція буде викликана, коли бот буде готовий
-@bot.event
-async def on_ready():
-    logging.info(f'Logged in as {bot.user.name} (ID: {bot.user.id})')
-    print(f'Logged in as {bot.user.name} (ID: {bot.user.id})') # Для виводу в консоль
-
-    logging.info("Starting initial data loading and calculation...")
+if BOT_TOKEN is None:
+    logger.error("Error: DISCORD_BOT_TOKEN not found in environment variables. Please set it in your .env file.")
+else:
     try:
-        # !!! КЛЮЧОВА ЗМІНА: Викликаємо calculate_stats БЕЗ АРГУМЕНТІВ !!!
-        # Вона сама завантажує всі потрібні файли і зберігає results.xlsx
-        bot.result_df = calculate_stats()
-
-        if bot.result_df.empty:
-            logging.error("Failed to load or process data. Some commands may not work correctly.")
-            print("ERROR: Failed to load or process data. Check logs for details.") # Для консолі
-        else:
-            logging.info("Data successfully loaded and processed.")
-            print("Data loaded and processed successfully.") # Для консолі
-
+        logger.info("Starting Discord bot...")
+        run_bot(BOT_TOKEN)
     except Exception as e:
-        logging.exception(f"Error during initial data loading: {e}")
-        print(f"CRITICAL ERROR: Initial data loading failed: {e}. Check bot.log for details.") # Для консолі
-        bot.result_df = pd.DataFrame() # Забезпечуємо, що result_df завжди DataFrame, навіть якщо порожній
+        logger.exception("An error occurred while running the bot:")
 
-    # Налаштовуємо команди після завантаження даних
-    # Цей виклик має бути тут, щоб команди мали доступ до bot.result_df
-    setup_commands(bot)
-    logging.info(f'{bot.user.name} is ready!')
-    print(f'{bot.user.name} is ready!') # Для консолі
-
-
-# Функція для запуску бота
-def run_bot_instance():
-    logging.info("Attempting to run bot...")
-    try:
-        bot.run(TOKEN)
-    except discord.errors.LoginFailure:
-        logging.critical("Improper token has been passed. Please check your DISCORD_TOKEN in .env file.")
-        print("CRITICAL ERROR: Improper token. Check DISCORD_TOKEN in .env file.")
-    except Exception as e:
-        logging.exception(f"An unexpected error occurred during bot run: {e}")
-        print(f"CRITICAL ERROR: An unexpected error occurred: {e}. Check bot.log for details.")
-
-if __name__ == "__main__":
-    run_bot_instance()
