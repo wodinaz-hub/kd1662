@@ -39,8 +39,8 @@ PERIOD_CONFIG = {
         'end': 'pass 7/end_pass7.xlsx'
     },
     'kingsland': {
-        'start': 'kingsland/start_Kingsland.xlsx',
-        'end': 'kingsland/end_Kingsland.xlsx'
+        'start': 'kingsland/start_kingsland.xlsx',
+        'end': 'kingsland/end_kingsland.xlsx'
     }
 }
 
