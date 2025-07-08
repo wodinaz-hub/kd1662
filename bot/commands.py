@@ -293,6 +293,7 @@ class BotInstance:
         @self.bot.command(name='requirements', aliases=['req'],
                           help='Displays players who have not met their kill or death requirements. Usage: !requirements [limit=20]')
         async def requirements(ctx, limit: int = 20):
+            # ИСПОЛЬЗУЕМ commands_logger ВМЕСТО bot_logger
             logging.debug(f"DEBUG: !req command called by {ctx.author} in channel {ctx.channel.name}.")
             print(f"DEBUG: !req command called. (Console: {ctx.author})")
 
@@ -307,7 +308,7 @@ class BotInstance:
                     return
 
                 required_cols = ['Required Kills', 'Required Deaths', 'Kill Points_before', 'Kill Points_after',
-                                 'Deads_before', 'Deads_after', 'Governor Name', 'Governor ID']
+                                 'Deads_before', 'Deads_after', 'Governor Name', 'Governor ID', 'Total Kills T4+T5 Change']
                 missing_cols = [col for col in required_cols if col not in df.columns]
                 if missing_cols:
                     error_msg = f"ERROR: Missing required columns in data for !req: {', '.join(missing_cols)}. Please check data integrity."
@@ -316,7 +317,7 @@ class BotInstance:
                     return
 
                 for col in ['Required Kills', 'Required Deaths', 'Kill Points_before', 'Kill Points_after',
-                            'Deads_before', 'Deads_after']:
+                            'Deads_before', 'Deads_after', 'Total Kills T4+T5 Change']:
                     df.loc[:, col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
                     if df.loc[:, col].dtype == 'float64' and (df.loc[:, col] == df.loc[:, col].astype(int)).all():
                         df.loc[:, col] = df[col].astype(int)
@@ -324,14 +325,14 @@ class BotInstance:
                 logging.debug("DEBUG: Starting processing of player data for requirements.")
                 not_completed_players_data = []
                 for index, row in df.iterrows():
-                    kills_gained = row['Kill Points_after'] - row['Kill Points_before']
+                    kills_gained = row['Total Kills T4+T5 Change']
                     deaths_gained = row['Deads_after'] - row['Deads_before']
 
                     kills_progress_percent = (kills_gained / row['Required Kills'] * 100) if row[
                                                                                                  'Required Kills'] != 0 else (
                         100 if kills_gained >= 0 else 0)
                     deaths_progress_percent = (deaths_gained / row['Required Deaths'] * 100) if row[
-                                                                                                    'Required Deaths'] != 0 else (
+                                                                                            'Required Deaths'] != 0 else (
                         100 if deaths_gained >= 0 else 0)
 
                     kills_needed = max(0, row['Required Kills'] - kills_gained)
@@ -352,7 +353,7 @@ class BotInstance:
                 if not not_completed_players_data:
                     embed = discord.Embed(title="🎉 All players have met the requirements!", color=discord.Color.green())
                     await ctx.send(embed=embed)
-                    logging.info("INFO: All players have met the requirements.")
+                    logging.info("INFO: All players have met the requirements.") # ИСПОЛЬЗУЕМ commands_logger
                     return
 
                 all_req_embeds = []
@@ -403,10 +404,10 @@ class BotInstance:
                 view = PaginationView(all_req_embeds)
                 message = await ctx.send(embed=all_req_embeds[0], view=view)
                 view.message = message
-                logging.info(f"INFO: Sent {len(all_req_embeds)} pages of player requirements.")
+                logging.info(f"INFO: Sent {len(all_req_embeds)} pages of player requirements.") # ИСПОЛЬЗУЕМ commands_logger
 
             except Exception as e:
-                logging.exception("ERROR: An unexpected error occurred in !req command.")
+                logging.exception("ERROR: An unexpected error occurred in !req command.") # ИСПОЛЬЗУЕМ commands_logger
                 await ctx.send(f"An unexpected error occurred while processing the !req command: {str(e)}")
 
         @self.bot.command(name='top', help='Displays top players by DKP. Usage: !top')
