@@ -1,0 +1,638 @@
+2025-06-07 17:21:50,358:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-07 17:21:50,879:INFO:root:Attempting to run bot...
+2025-06-07 17:21:50,881:INFO:discord.client:logging in using static token
+2025-06-07 17:21:51,977:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 87518dd46d5ec8a53c5190d5fef46b3c).
+2025-06-07 17:21:54,001:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-07 17:21:54,001:INFO:root:Starting initial data loading and calculation...
+2025-06-07 17:21:54,001:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-07 17:21:54,325:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-07 17:21:54,371:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-07 17:21:54,420:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-07 17:21:54,448:INFO:root:required.xlsx успішно завантажено.
+2025-06-07 17:21:54,451:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-07 17:21:54,454:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-07 17:21:54,458:INFO:root:Об'єднано з 263 гравцями з required.xlsx (вимоги).
+2025-06-07 17:21:54,458:ERROR:root:Непередбачена помилка в calculate_stats: 'Power_after'
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'Power_after'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 120, in calculate_stats
+    final_df['Power_after'] = to_numeric_and_fill(final_df['Power_after'])
+                                                  ~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'Power_after'
+2025-06-07 17:21:54,465:ERROR:root:Failed to load or process data. Some commands may not work correctly.
+2025-06-07 17:21:54,466:INFO:root:KD 1662 Stats is ready!
+2025-06-07 17:29:06,039:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-07 17:29:06,590:INFO:root:Attempting to run bot...
+2025-06-07 17:29:06,591:INFO:discord.client:logging in using static token
+2025-06-07 17:29:07,792:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 04b3ec0f3fdf36954452f0e210049cfb).
+2025-06-07 17:29:09,798:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-07 17:29:09,798:INFO:root:Starting initial data loading and calculation...
+2025-06-07 17:29:09,798:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-07 17:29:10,190:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-07 17:29:10,234:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-07 17:29:10,277:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-07 17:29:10,301:INFO:root:required.xlsx успішно завантажено.
+2025-06-07 17:29:10,305:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-07 17:29:10,308:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-07 17:29:10,310:INFO:root:Об'єднано з 263 гравцями з required.xlsx (вимоги).
+2025-06-07 17:29:10,881:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-07 17:29:10,881:INFO:root:Data successfully loaded and processed.
+2025-06-07 17:29:10,882:INFO:root:KD 1662 Stats is ready!
+2025-06-07 17:33:18,550:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-07 17:33:19,112:INFO:root:Attempting to run bot...
+2025-06-07 17:33:19,113:INFO:discord.client:logging in using static token
+2025-06-07 17:33:20,569:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3837167917bad8e35d551bd710b2e94a).
+2025-06-07 17:33:22,588:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-07 17:33:22,588:INFO:root:Starting initial data loading and calculation...
+2025-06-07 17:33:22,588:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-07 17:33:22,955:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-07 17:33:22,999:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-07 17:33:23,041:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-07 17:33:23,065:INFO:root:required.xlsx успішно завантажено.
+2025-06-07 17:33:23,068:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-07 17:33:23,071:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-07 17:33:23,073:INFO:root:Об'єднано з 263 гравцями з required.xlsx (вимоги).
+2025-06-07 17:33:23,502:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-07 17:33:23,503:INFO:root:Data successfully loaded and processed.
+2025-06-07 17:33:23,503:INFO:root:KD 1662 Stats is ready!
+2025-06-07 17:36:38,868:INFO:root:top: Відправлено 139 сторінок топ-гравців.
+2025-06-07 17:38:39,202:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-07 17:38:39,768:INFO:root:Attempting to run bot...
+2025-06-07 17:38:39,769:INFO:discord.client:logging in using static token
+2025-06-07 17:38:41,000:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 40ba0b948c726e9c756eff220f29c3ef).
+2025-06-07 17:38:43,012:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-07 17:38:43,012:INFO:root:Starting initial data loading and calculation...
+2025-06-07 17:38:43,012:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-07 17:38:43,396:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-07 17:38:43,441:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-07 17:38:43,486:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-07 17:38:43,511:INFO:root:required.xlsx успішно завантажено.
+2025-06-07 17:38:43,515:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-07 17:38:43,518:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-07 17:38:43,520:INFO:root:Об'єднано з 263 гравцями з required.xlsx (вимоги).
+2025-06-07 17:38:43,952:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-07 17:38:43,952:INFO:root:Data successfully loaded and processed.
+2025-06-07 17:38:43,953:INFO:root:KD 1662 Stats is ready!
+2025-06-07 17:40:59,453:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-07 17:41:00,114:INFO:root:Attempting to run bot...
+2025-06-07 17:41:00,115:INFO:discord.client:logging in using static token
+2025-06-07 17:41:01,337:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: c8ff47668a74838884c78e40927dd12d).
+2025-06-07 17:41:03,371:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-07 17:41:03,371:INFO:root:Starting initial data loading and calculation...
+2025-06-07 17:41:03,371:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-07 17:41:03,680:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-07 17:41:03,725:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-07 17:41:03,768:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-07 17:41:03,792:INFO:root:required.xlsx успішно завантажено.
+2025-06-07 17:41:03,795:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-07 17:41:03,798:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-07 17:41:03,800:INFO:root:Об'єднано з 263 гравцями з required.xlsx (вимоги).
+2025-06-07 17:41:04,269:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-07 17:41:04,269:INFO:root:Data successfully loaded and processed.
+2025-06-07 17:41:04,270:INFO:root:KD 1662 Stats is ready!
+2025-06-07 17:41:23,363:INFO:root:INFO: Відправлено 38 сторінок вимог гравців.
+2025-06-07 17:41:33,972:INFO:root:top: Відправлено 139 сторінок топ-гравців.
+2025-06-07 17:42:35,592:INFO:root:kd_stats: Інформація про королівство відправлена.
+2025-06-09 17:17:58,512:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:17:59,562:INFO:root:Attempting to run bot...
+2025-06-09 17:17:59,564:INFO:discord.client:logging in using static token
+2025-06-09 17:18:02,160:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 1ad189d0358a250c0a054fe29f1507c1).
+2025-06-09 17:18:04,182:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:18:04,182:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:18:04,183:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:18:04,804:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:18:04,881:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:18:04,939:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:18:04,966:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:18:04,975:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-09 17:18:04,980:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:18:04,983:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:18:05,593:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:18:05,593:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:18:05,594:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:20:24,679:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:20:25,240:INFO:root:Attempting to run bot...
+2025-06-09 17:20:25,242:INFO:discord.client:logging in using static token
+2025-06-09 17:20:26,539:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d514141be6261e5c24fdc72f8bff7ced).
+2025-06-09 17:20:28,559:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:20:28,559:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:20:28,559:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:20:28,947:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:20:28,992:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:20:29,039:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:20:29,063:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:20:29,066:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-09 17:20:29,068:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:20:29,071:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:20:29,530:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:20:29,531:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:20:29,531:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:28:25,558:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:28:26,563:INFO:root:Attempting to run bot...
+2025-06-09 17:28:26,566:INFO:discord.client:logging in using static token
+2025-06-09 17:28:27,956:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 478bb1e7a92cfff77e32e777eb695816).
+2025-06-09 17:28:29,975:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:28:29,975:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:28:29,975:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:28:30,603:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:28:30,651:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:28:30,709:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:28:30,756:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:28:30,766:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-09 17:28:30,769:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:28:30,776:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:28:31,553:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:28:31,553:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:28:31,554:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:30:20,049:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:30:20,599:INFO:root:Attempting to run bot...
+2025-06-09 17:30:20,601:INFO:discord.client:logging in using static token
+2025-06-09 17:30:21,619:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 52521009e5dcbae5ce186d4cf789a64d).
+2025-06-09 17:30:23,644:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:30:23,644:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:30:23,644:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:30:24,055:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:30:24,111:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:30:24,155:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:30:24,180:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:30:24,183:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-09 17:30:24,189:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:30:24,191:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:30:24,655:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:30:24,656:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:30:24,657:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:49:49,717:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:49:50,689:INFO:root:Attempting to run bot...
+2025-06-09 17:49:50,691:INFO:discord.client:logging in using static token
+2025-06-09 17:49:51,785:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 1f94613139263525c46c31b7b962e86d).
+2025-06-09 17:49:53,814:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:49:53,814:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:49:53,814:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:49:54,227:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:49:54,277:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:49:54,323:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:49:54,352:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:49:54,359:INFO:root:Об'єднано з 275 гравців з before_pass4.
+2025-06-09 17:49:54,362:INFO:root:Об'єднано з 275 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:49:54,364:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:49:54,834:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:49:54,834:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:49:54,835:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:50:11,827:INFO:root:top: Відправлено 10 сторінок топ-гравців.
+2025-06-09 17:58:14,995:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-09 17:58:15,611:INFO:root:Attempting to run bot...
+2025-06-09 17:58:15,613:INFO:discord.client:logging in using static token
+2025-06-09 17:58:16,890:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 623c605201757b1dc5f580d477b6542c).
+2025-06-09 17:58:18,914:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-09 17:58:18,914:INFO:root:Starting initial data loading and calculation...
+2025-06-09 17:58:18,914:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-09 17:58:19,301:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-09 17:58:19,345:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-09 17:58:19,385:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-09 17:58:19,410:INFO:root:required.xlsx успішно завантажено.
+2025-06-09 17:58:19,417:INFO:root:Об'єднано з 253 гравців з before_pass4.
+2025-06-09 17:58:19,420:INFO:root:Об'єднано з 264 гравцями зі start_kvk (потужність до КВК).
+2025-06-09 17:58:19,422:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-09 17:58:19,761:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-09 17:58:19,761:INFO:root:Data successfully loaded and processed.
+2025-06-09 17:58:19,761:INFO:root:KD 1662 Stats is ready!
+2025-06-09 17:58:43,765:INFO:root:top: Відправлено 51 сторінок топ-гравців.
+2025-06-15 02:08:46,850:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 02:08:50,948:INFO:root:Attempting to run bot...
+2025-06-15 02:08:50,954:INFO:discord.client:logging in using static token
+2025-06-15 02:08:52,918:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 7657708db2a3236c4dbb4cc762b66d3c).
+2025-06-15 02:08:54,985:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 02:08:54,985:INFO:root:Starting initial data loading and calculation...
+2025-06-15 02:08:54,985:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-15 02:08:58,649:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-15 02:08:58,842:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-15 02:08:59,212:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-15 02:08:59,267:INFO:root:required.xlsx успішно завантажено.
+2025-06-15 02:08:59,291:INFO:root:Об'єднано з 253 гравців з before_pass4.
+2025-06-15 02:08:59,295:INFO:root:Об'єднано з 264 гравцями зі start_kvk (потужність до КВК).
+2025-06-15 02:08:59,299:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-15 02:08:59,761:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 02:08:59,761:INFO:root:Data successfully loaded and processed.
+2025-06-15 02:08:59,762:INFO:root:KD 1662 Stats is ready!
+2025-06-15 02:09:20,056:INFO:root:top: Відправлено 50 сторінок топ-гравців.
+2025-06-15 02:25:02,192:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 02:25:02,828:INFO:root:Attempting to run bot...
+2025-06-15 02:25:02,831:INFO:discord.client:logging in using static token
+2025-06-15 02:25:03,828:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 0208a98ae1edf477f4cf5684ad2d57c7).
+2025-06-15 02:25:05,841:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 02:25:05,841:INFO:root:Starting initial data loading and calculation...
+2025-06-15 02:25:05,842:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-15 02:25:06,292:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-15 02:25:06,340:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-15 02:25:06,390:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-15 02:25:06,415:INFO:root:required.xlsx успішно завантажено.
+2025-06-15 02:25:06,422:INFO:root:Об'єднано з 253 гравців з before_pass4.
+2025-06-15 02:25:06,425:INFO:root:Об'єднано з 264 гравцями зі start_kvk (потужність до КВК).
+2025-06-15 02:25:06,428:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-15 02:25:06,782:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 02:25:06,783:INFO:root:Data successfully loaded and processed.
+2025-06-15 02:25:06,783:INFO:root:KD 1662 Stats is ready!
+2025-06-15 02:25:15,540:INFO:root:top: Відправлено 49 сторінок топ-гравців.
+2025-06-15 04:12:42,445:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:12:43,034:INFO:root:Attempting to run bot...
+2025-06-15 04:12:43,036:INFO:discord.client:logging in using static token
+2025-06-15 04:12:44,274:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: bd76475f2581bbc75735ab218a81a1b7).
+2025-06-15 04:12:46,321:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:12:46,322:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:12:46,322:INFO:root:Початок читання та обробки даних у calculate_stats...
+2025-06-15 04:12:46,720:INFO:root:start_kvk.xlsx успішно завантажено.
+2025-06-15 04:12:47,279:INFO:root:before_pass4.xlsx успішно завантажено.
+2025-06-15 04:12:47,322:INFO:root:pass4.xlsx успішно завантажено.
+2025-06-15 04:12:47,346:INFO:root:required.xlsx успішно завантажено.
+2025-06-15 04:12:47,354:INFO:root:Об'єднано з 253 гравців з before_pass4.
+2025-06-15 04:12:47,356:INFO:root:Об'єднано з 264 гравцями зі start_kvk (потужність до КВК).
+2025-06-15 04:12:47,358:INFO:root:Об'єднано з 275 гравцями з required.xlsx (вимоги).
+2025-06-15 04:12:47,578:INFO:root:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 04:12:47,578:INFO:root:Data successfully loaded and processed.
+2025-06-15 04:12:47,578:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:14:41,840:INFO:root:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:14:41,883:INFO:root:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:14:41,924:INFO:root:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:14:41,927:ERROR:discord.ext.commands.bot:Ignoring exception in command pstat
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 528, in pstat
+    df_period = await get_period_df(ctx, period_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 511, in get_period_df
+    df_period = calculate_period_stats(start_file, end_file)
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 57, in calculate_period_stats
+    period_df['Power_after'] = to_numeric_and_fill(period_df['Power_after'])
+                               ^^^^^^^^^^^^^^^^^^^
+NameError: name 'to_numeric_and_fill' is not defined
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: NameError: name 'to_numeric_and_fill' is not defined
+2025-06-15 04:15:58,935:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:15:59,518:INFO:root:Attempting to run bot...
+2025-06-15 04:15:59,519:INFO:discord.client:logging in using static token
+2025-06-15 04:16:00,544:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: b46a6cf85e15bd6ae3e238be646ed385).
+2025-06-15 04:16:02,564:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:16:02,565:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:16:02,565:INFO:discord:Starting overall KVK data processing: before_kvk.xlsx -> after_kvk.xlsx
+2025-06-15 04:16:02,565:ERROR:discord:Error: before_kvk.xlsx not found.
+2025-06-15 04:16:02,567:ERROR:root:Failed to load or process data. Some commands may not work correctly.
+2025-06-15 04:16:02,567:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:16:08,110:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:16:08,523:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:16:08,559:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:16:08,575:ERROR:discord.ext.commands.bot:Ignoring exception in command pstat
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'DKP_start'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 528, in pstat
+    df_period = await get_period_df(ctx, period_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 511, in get_period_df
+    df_period = calculate_period_stats(start_file, end_file)
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 183, in calculate_period_stats
+    period_df['DKP_start'] = to_numeric_and_fill(period_df['DKP_start'])
+                                                 ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'DKP_start'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: KeyError: 'DKP_start'
+2025-06-15 04:16:17,402:ERROR:discord.ext.commands.bot:Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "stat" is not found
+2025-06-15 04:16:42,397:WARNING:root:get_result_df: result_df not found on bot_instance or it's empty. Attempting to run calculate_stats.
+2025-06-15 04:16:42,397:INFO:discord:Starting overall KVK data processing: before_kvk.xlsx -> after_kvk.xlsx
+2025-06-15 04:16:42,397:ERROR:discord:Error: before_kvk.xlsx not found.
+2025-06-15 04:16:42,398:ERROR:root:get_result_df: Failed to load or calculate data. result_df remains empty.
+2025-06-15 04:19:31,364:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:20:05,580:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:20:06,090:INFO:root:Attempting to run bot...
+2025-06-15 04:20:06,091:INFO:discord.client:logging in using static token
+2025-06-15 04:20:07,346:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 7a5d7377f3ad8ca822929a41e7517173).
+2025-06-15 04:20:09,364:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:20:09,364:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:20:09,364:INFO:discord:Starting overall KVK data processing: before_kvk.xlsx -> after_kvk.xlsx
+2025-06-15 04:20:09,365:ERROR:discord:Error: before_kvk.xlsx not found.
+2025-06-15 04:20:09,367:ERROR:root:Failed to load or process data. Some commands may not work correctly.
+2025-06-15 04:20:09,368:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:20:23,675:WARNING:root:get_result_df: result_df not found on bot_instance or it's empty. Attempting to run calculate_stats.
+2025-06-15 04:20:23,676:INFO:discord:Starting overall KVK data processing: before_kvk.xlsx -> after_kvk.xlsx
+2025-06-15 04:20:23,676:ERROR:discord:Error: before_kvk.xlsx not found.
+2025-06-15 04:20:23,676:ERROR:root:get_result_df: Failed to load or calculate data. result_df remains empty.
+2025-06-15 04:20:49,049:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:20:49,370:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:20:49,433:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:20:49,455:INFO:discord:Period data processing completed.
+2025-06-15 04:33:14,580:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:33:15,151:INFO:root:Attempting to run bot...
+2025-06-15 04:33:15,154:INFO:discord.client:logging in using static token
+2025-06-15 04:33:16,234:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 93938aa2af82707ec7b4c11472903f2b).
+2025-06-15 04:33:18,259:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:33:18,259:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:33:18,259:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-15 04:33:18,647:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-15 04:33:18,690:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-15 04:33:18,729:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-15 04:33:18,756:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-15 04:33:18,763:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-15 04:33:18,766:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-15 04:33:18,768:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-15 04:33:18,975:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 04:33:18,975:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-15 04:33:18,975:INFO:root:Data successfully loaded and processed.
+2025-06-15 04:33:18,975:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:33:28,398:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:33:28,443:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:33:29,181:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:33:29,200:INFO:discord:Period data processing completed.
+2025-06-15 04:33:36,497:ERROR:root:ERROR: An unexpected error occurred in !stats command.
+Traceback (most recent call last):
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 436, in stats
+    player_stats = get_player_stats(df, player_id)  # get_player_stats is imported from calculator.py
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 359, in get_player_stats
+    power_before_kvk = to_numeric_and_fill(player.get('Power_at_KVK_start', 0))
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 20, in to_numeric_and_fill
+    return pd.to_numeric(series.copy(), errors='coerce').fillna(fill_value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.float64' object has no attribute 'fillna'. Did you mean: 'fill'?
+2025-06-15 04:35:05,531:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:35:06,031:INFO:root:Attempting to run bot...
+2025-06-15 04:35:06,032:INFO:discord.client:logging in using static token
+2025-06-15 04:35:07,011:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d31453e360cccb2b494890d5b60047b5).
+2025-06-15 04:35:09,049:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:35:09,049:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:35:09,050:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-15 04:35:09,349:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-15 04:35:09,389:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-15 04:35:09,425:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-15 04:35:09,446:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-15 04:35:09,449:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-15 04:35:09,451:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-15 04:35:09,454:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-15 04:35:09,628:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 04:35:09,628:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-15 04:35:09,628:INFO:root:Data successfully loaded and processed.
+2025-06-15 04:35:09,629:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:35:37,564:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:35:37,607:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:35:37,647:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:35:37,659:INFO:discord:Period data processing completed.
+2025-06-15 04:39:34,909:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:39:35,428:INFO:root:Attempting to run bot...
+2025-06-15 04:39:35,429:INFO:discord.client:logging in using static token
+2025-06-15 04:39:36,689:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: c9dc8d9e61db26c516e3a0589cd91b62).
+2025-06-15 04:39:38,719:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:39:38,719:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:39:38,719:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-15 04:39:39,036:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-15 04:39:39,075:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-15 04:39:39,112:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-15 04:39:39,135:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-15 04:39:39,138:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-15 04:39:39,140:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-15 04:39:39,142:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-15 04:39:39,421:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 04:39:39,421:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-15 04:39:39,422:INFO:root:Data successfully loaded and processed.
+2025-06-15 04:39:39,422:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:39:51,583:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:39:52,078:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:39:52,123:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:39:52,134:INFO:discord:Period data processing completed.
+2025-06-15 04:43:53,611:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-15 04:43:54,078:INFO:root:Attempting to run bot...
+2025-06-15 04:43:54,079:INFO:discord.client:logging in using static token
+2025-06-15 04:43:55,080:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 0606a5532549b1103c0ff04a96b24dc6).
+2025-06-15 04:43:57,117:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-15 04:43:57,117:INFO:root:Starting initial data loading and calculation...
+2025-06-15 04:43:57,117:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-15 04:43:57,416:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-15 04:43:57,456:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-15 04:43:57,495:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-15 04:43:57,518:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-15 04:43:57,521:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-15 04:43:57,523:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-15 04:43:57,524:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-15 04:43:57,698:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-15 04:43:57,698:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-15 04:43:57,698:INFO:root:Data successfully loaded and processed.
+2025-06-15 04:43:57,699:INFO:root:KD 1662 Stats is ready!
+2025-06-15 04:44:05,378:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-15 04:44:05,421:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-15 04:44:06,035:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-15 04:44:06,051:INFO:discord:Period data processing completed.
+2025-06-15 04:44:06,336:INFO:root:pstat: Sent stats for period zone5, ID: 74359287
+2025-06-15 04:44:46,682:INFO:discord:Starting data processing for period: altars/start_altars.xlsx -> altars/end_altars.xlsx
+2025-06-15 04:44:46,712:ERROR:discord:Error reading Excel files for period stats (altars/start_altars.xlsx, altars/end_altars.xlsx): 'Governor ID'
+Traceback (most recent call last):
+  File "C:\py_apps\KD1662_bot\kd1662\data_processing\calculator.py", line 255, in calculate_period_stats
+    df_start['Governor ID'] = df_start['Governor ID'].str.strip()
+                              ~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\range.py", line 417, in get_loc
+    raise KeyError(key)
+KeyError: 'Governor ID'
+2025-06-15 04:44:47,102:WARNING:root:period_stats: Processed data for period 'altars' is empty.
+2025-06-15 04:45:02,281:ERROR:root:period_stats: Period files for 'pass7' not found: start_exists=False, end_exists=False.
+2025-06-15 04:45:21,080:ERROR:root:period_stats: Period files for 'kingsland' not found: start_exists=False, end_exists=False.
+2025-06-15 04:46:13,792:ERROR:discord.ext.commands.bot:Ignoring exception in command ptop
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'DKP'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\py_apps\KD1662_bot\kd1662\bot\commands.py", line 592, in ptop
+    df_period.loc[:, 'DKP'] = pd.to_numeric(df_period['DKP'], errors='coerce').fillna(0)
+                                            ~~~~~~~~~^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'DKP'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: KeyError: 'DKP'
+2025-06-16 03:39:04,601:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:39:06,511:INFO:root:Attempting to run bot...
+2025-06-16 03:39:06,513:INFO:discord.client:logging in using static token
+2025-06-16 03:39:08,438:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e3a0bc795c388cbb423735c13fa1f1dd).
+2025-06-16 03:39:11,268:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-16 03:39:11,480:INFO:root:Starting initial data loading and calculation...
+2025-06-16 03:39:11,822:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-16 03:39:15,714:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-16 03:39:15,765:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-16 03:39:15,820:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-16 03:39:15,858:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-16 03:39:15,866:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-16 03:39:15,869:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-16 03:39:15,871:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-16 03:39:16,128:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-16 03:39:16,129:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-16 03:39:16,129:INFO:root:Data successfully loaded and processed.
+2025-06-16 03:39:16,129:INFO:root:KD 1662 Stats is ready!
+2025-06-16 03:40:22,455:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-16 03:40:22,509:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-16 03:40:22,576:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-16 03:40:22,606:INFO:discord:Period data processing completed.
+2025-06-16 03:40:22,927:INFO:root:pstat: Sent stats for period zone5, ID: 74359287
+2025-06-16 03:44:43,990:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:44:44,431:INFO:root:Attempting to run bot...
+2025-06-16 03:44:44,432:INFO:discord.client:logging in using static token
+2025-06-16 03:44:45,438:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d774508e8fee29949a5ca92e824e4f90).
+2025-06-16 03:44:47,468:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-16 03:44:47,469:INFO:root:Starting initial data loading and calculation...
+2025-06-16 03:44:47,469:INFO:discord:Початок читання та обробки даних для загальної KVK статистики...
+2025-06-16 03:44:47,796:INFO:discord:kvk_start_power.xlsx успішно завантажено.
+2025-06-16 03:44:47,834:INFO:discord:kvk_before_metrics.xlsx успішно завантажено.
+2025-06-16 03:44:47,872:INFO:discord:kvk_after_metrics.xlsx успішно завантажено.
+2025-06-16 03:44:47,895:INFO:discord:kvk_requirements.xlsx успішно завантажено.
+2025-06-16 03:44:47,898:INFO:discord:Об'єднано з 253 гравців з kvk_before_metrics.xlsx.
+2025-06-16 03:44:47,901:INFO:discord:Об'єднано з 264 гравцями зі kvk_start_power.xlsx (потужність до КВК).
+2025-06-16 03:44:47,903:INFO:discord:Об'єднано з 275 гравцями з kvk_requirements.xlsx (вимоги).
+2025-06-16 03:44:48,079:INFO:discord:Оброблені дані успішно збережено у 'results.xlsx'.
+2025-06-16 03:44:48,079:INFO:discord:Загальна KVK статистика успішно оброблена.
+2025-06-16 03:44:48,080:INFO:root:Data successfully loaded and processed.
+2025-06-16 03:44:48,081:INFO:root:KD 1662 Stats is ready!
+2025-06-16 03:44:54,975:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-16 03:44:55,014:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-16 03:44:55,052:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-16 03:44:55,064:INFO:discord:Period data processing completed.
+2025-06-16 03:44:55,414:INFO:root:pstat: Sent stats for period zone5, ID: 74359287
+2025-06-16 03:45:10,649:ERROR:discord.ext.commands.bot:Ignoring exception in command ptop
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 1021, in invoke
+    await self.prepare(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 938, in prepare
+    await self._parse_arguments(ctx)
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 845, in _parse_arguments
+    transformed = await self.transform(ctx, param, attachments)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Oleksandr\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\ext\commands\core.py", line 697, in transform
+    raise MissingRequiredArgument(param)
+discord.ext.commands.errors.MissingRequiredArgument: period_name is a required argument that is missing.
+2025-06-16 03:46:01,941:INFO:root:ptop: Sent 10 pages of top players for period zone5.
+2025-06-16 03:46:15,471:INFO:root:top: Sent 49 pages of top players.
+2025-06-16 03:53:16,329:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:53:16,784:INFO:root:Attempting to run bot...
+2025-06-16 03:53:16,785:INFO:discord.client:logging in using static token
+2025-06-16 03:53:17,893:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 71b65ef3e691eea149a912357f2c8a99).
+2025-06-16 03:53:20,017:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-16 03:53:20,017:INFO:root:Starting initial data loading and calculation...
+2025-06-16 03:53:20,018:INFO:discord:Starting to read and process data for overall KVK statistics...
+2025-06-16 03:53:20,307:INFO:discord:kvk_start_power.xlsx successfully loaded.
+2025-06-16 03:53:20,345:INFO:discord:kvk_before_metrics.xlsx successfully loaded.
+2025-06-16 03:53:20,396:INFO:discord:kvk_after_metrics.xlsx successfully loaded.
+2025-06-16 03:53:20,417:INFO:discord:kvk_requirements.xlsx successfully loaded.
+2025-06-16 03:53:20,421:INFO:discord:Merged with 253 players from kvk_before_metrics.xlsx.
+2025-06-16 03:53:20,423:INFO:discord:Merged with 264 players from kvk_start_power.xlsx (power before KVK).
+2025-06-16 03:53:20,425:INFO:discord:Merged with 275 players from kvk_requirements.xlsx (requirements).
+2025-06-16 03:53:20,599:INFO:discord:Processed data successfully saved to 'results.xlsx'.
+2025-06-16 03:53:20,599:INFO:discord:Overall KVK statistics successfully processed.
+2025-06-16 03:53:20,599:INFO:root:Data successfully loaded and processed.
+2025-06-16 03:53:20,600:INFO:root:KD 1662 Stats is ready!
+2025-06-16 03:53:33,681:INFO:discord:Starting data processing for period: zone 5/start_zone5.xlsx -> zone 5/end_zone5.xlsx
+2025-06-16 03:53:33,721:INFO:discord:zone 5/start_zone5.xlsx successfully loaded.
+2025-06-16 03:53:33,761:INFO:discord:zone 5/end_zone5.xlsx successfully loaded.
+2025-06-16 03:53:33,772:INFO:discord:Period data processing completed.
+2025-06-16 03:53:34,118:INFO:root:pstat: Sent stats for period zone5, ID: 74359287
+2025-06-16 03:54:51,937:INFO:root:top: Sent 49 pages of top players.
+2025-06-16 03:55:08,129:INFO:root:ptop: Sent 10 pages of top players for period zone5.
+2025-06-16 03:56:37,788:INFO:root:pkd: Sent K/D statistics for period zone5.
+2025-06-16 03:56:58,005:INFO:root:kd_stats: Kingdom overview information sent.
+2025-06-16 03:59:23,744:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:59:39,894:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:59:52,217:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 03:59:52,660:INFO:root:Attempting to run bot...
+2025-06-16 03:59:52,661:INFO:discord.client:logging in using static token
+2025-06-16 03:59:53,782:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 11cab17508420bdfd3b59a7425d5c1bf).
+2025-06-16 03:59:55,805:INFO:root:Logged in as KD 1662 Stats (ID: 1316761241456480328)
+2025-06-16 03:59:55,805:INFO:root:Starting initial data loading and calculation...
+2025-06-16 03:59:55,806:INFO:discord:Starting to read and process data for overall KVK statistics...
+2025-06-16 03:59:56,447:INFO:discord:kvk_start_power.xlsx successfully loaded.
+2025-06-16 03:59:56,496:INFO:discord:kvk_before_metrics.xlsx successfully loaded.
+2025-06-16 03:59:56,554:INFO:discord:kvk_after_metrics.xlsx successfully loaded.
+2025-06-16 03:59:56,582:INFO:discord:kvk_requirements.xlsx successfully loaded.
+2025-06-16 03:59:56,586:INFO:discord:Merged with 253 players from kvk_before_metrics.xlsx.
+2025-06-16 03:59:56,589:INFO:discord:Merged with 264 players from kvk_start_power.xlsx (power before KVK).
+2025-06-16 03:59:56,591:INFO:discord:Merged with 275 players from kvk_requirements.xlsx (requirements).
+2025-06-16 03:59:56,905:INFO:discord:Processed data successfully saved to 'results.xlsx'.
+2025-06-16 03:59:56,905:INFO:discord:Overall KVK statistics successfully processed.
+2025-06-16 03:59:56,905:INFO:root:Data successfully loaded and processed.
+2025-06-16 03:59:56,906:INFO:root:KD 1662 Stats is ready!
+2025-06-16 04:03:08,409:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 04:03:22,597:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+2025-06-16 04:17:40,295:WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
