@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 # Import bot_instance and run_bot directly from bot.commands
 from bot.commands import bot_instance, run_bot
 
+print(f"STARTED: PID={os.getpid()}")
+
 # --- НАЧАЛО БЛОКА КОНФИГУРАЦИИ ЛОГИРОВАНИЯ (ОБНОВЛЕНО) ---
 # Создаем корневой логгер
 root_logger = logging.getLogger()
